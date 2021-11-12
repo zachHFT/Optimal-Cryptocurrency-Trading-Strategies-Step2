@@ -32,7 +32,9 @@ top_fifty %>% ggplot(aes(x=reorder(Author, desc(InDegree), sum), y=InDegree)) + 
 ##https://cran.r-project.org/web/packages/influential/vignettes/Vignettes.html#IVI
 
 IVI <- ivi(g, vertices=V(g), directed=TRUE, loops=FALSE, scaled=TRUE, mode='in', d=3)
-head(IVI)
+
+most_influential_authors <- V(g)$names[order(IVI, decreasing=TRUE)[1:10]]
+write(most_influential_authors, file='most_influential_authors')
 
 network_vis <- cent_network.vis(graph = g,
                                 cent.metric = IVI,

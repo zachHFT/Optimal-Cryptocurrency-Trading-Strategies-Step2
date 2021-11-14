@@ -23,7 +23,7 @@ binance_api_secret = 'kwN86MlmFbgCtYFvTNiuS9OrQO3J0rNfOUlrv6xFBDMsIbvwra76S0pmRQ
 binsizes = {"1m": 1, "5m": 5, "1h": 60, "1d": 1440}
 # batch_size = 750 #don't think this is needed anymore
 binance_client = Client(api_key=binance_api_key, api_secret=binance_api_secret)
-main_directory = '/Users/kc/Documents/StatCompVis/CryptoProject/Optimal-Cryptocurrency-Trading-Strategies-Step2/Reddit_Analysis'
+main_directory = '/Users/kc/Documents/StatCompVis/CryptoProject/Optimal-Cryptocurrency-Trading-Strategies-Step2/Reddit_Analysis/Price_Data_Extraction'
 
 
 ### FUNCTIONS

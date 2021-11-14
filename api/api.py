@@ -1,2 +1,0 @@
-b_pk = 'WRuwOCwk7gZfdIuZ9PgcLsPesE0NZVhHmQSxEKAHYUPKIAFdJLg7MxfhLcvYJ8OS' 
-b_sk = 'kwN86MlmFbgCtYFvTNiuS9OrQO3J0rNfOUlrv6xFBDMsIbvwra76S0pmRQf4pE28' 

@@ -26,16 +26,19 @@ btc.usd <- btc.usd %>% filter(timestamp %in% created) #subset prices accordingly
 df <- data.frame(day=created, score=daily_discussions$score, num_comments=daily_discussions$num_comments,
                  log_return=btc.usd$log_return_close)
 
-p <- ggplot(data=df, aes(x=day, y=log_return)) + geom_line() + #generate plot to be animated
-  transition_reveal(day) +
+
+p <- df %>% filter(created >= "2021-03-12") %>%
+  ggplot(aes(x=day, y=log_return)) + geom_line() +  #generate plot to be animated
+  transition_reveal(day, keep_last = F) +
   view_follow() +
+  exit_fade() +
   ease_aes("exponential-out") +
-  geom_label_repel(aes(label = score),
+  geom_label_repel(aes(label = score, colour='red'),
                    nudge_x = 1,
                    na.rm = TRUE) +
   theme_minimal() 
 
-animate(p)
+animate(p, duration=82.125, end_pause = 20)
         #fps  =  [pick how smooth you want],
         #duration = 274, # = 365 days/yr x 3 years x 0.25 sec/day = 274 seconds
         #nframes

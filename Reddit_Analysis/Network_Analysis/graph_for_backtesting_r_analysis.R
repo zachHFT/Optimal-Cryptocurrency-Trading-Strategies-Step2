@@ -58,9 +58,45 @@ network_vis
 
 ####### visualisation #######
 
-largest_connected_component <- which(components(g)$membership==1)
-largest_connected_component_g <- induced_subgraph(g,largest_connected_component)
-largest_connected_component_IVI <- IVI[largest_connected_component]
+n <- 3
+in_deg_more_than_n <- V(g)[degree(g, mode='in') > n]
+g_reduced <- induced_subgraph(g, vids=in_deg_more_than_n)
+largest_connected_component_g_reduced_index <- which(components(g_reduced)$membership==1)
+largest_connected_component_g_reduced <- induced_subgraph(g_reduced,largest_connected_component_g_reduced_index)
+largest_connected_component_g_reduced <- largest_connected_component_g_reduced %>%
+  set_vertex_attr("IVIcentrality", value=IVI[which(V(g)$names %in% V(largest_connected_component_g_reduced)$names)])
+
+
+# this function is borrowed from the ambient package
+normalise <- function (x, from = range(x), to = c(0, 1)) {
+  x <- (x - from[1])/(from[2] - from[1])
+  if (!identical(to, c(0, 1))) {
+    x <- x * (to[2] - to[1]) + to[1]
+  }
+  x
+}
+# map to the range you want
+V(largest_connected_component_g_reduced)$degree_normalised <- normalise(degree(largest_connected_component_g_reduced), to = c(3, 11))
+
+ggraph(largest_connected_component_g_reduced, layout = "manual", x = V(largest_connected_component_g_reduced)$x,
+    y = V(largest_connected_component_g_reduced)$y) + 
+	 geom_edge_link(aes(end_cap = circle(2,'mm')),
+	                    edge_colour = "#A8A8A8", 
+	                    edge_width = 0.2,
+	                    edge_alpha = 1,
+	                    arrow = arrow(angle = 30, length = unit(1, "mm"), 
+	                                  ends = "last", type = "closed")) + 
+  geom_node_point(aes(size = round(IVIcentrality, digits=1),
+                      alpha = IVIcentrality/0.6),
+                  fill = "green", 
+                  shape = 21, 
+                  stroke = 0.1) +
+  geom_node_text(aes(label= ifelse(IVIcentrality > 4.5, round(IVIcentrality,digits=1), ""),
+                 family = 'Palatino',
+                 size = IVIcentrality/8)) +
+  scale_size(range = c(0, 16)) + 
+	theme_graph() + 
+	theme(legend.position = "none")
 
 palette <- c("#1A5878", "#C44237", "#AD8941", "#E99093", 
                  "#50594B", "#8968CD", "#9ACD32")
@@ -68,9 +104,9 @@ palette <- c("#1A5878", "#C44237", "#AD8941", "#E99093",
 centrality_layout <- ggraph(largest_connected_component_g,
                             layout = "centrality",
                             cent = largest_connected_component_IVI) +
-  geom_edge_link0(edge_colour = "grey66")+
+  geom_edge_link0(edge_colour = "grey66") +
   geom_node_point(shape = 21)+
-  geom_node_text(label=V(largest_connected_component_g)$names, family = "serif")+
+  #geom_node_text(label=V(largest_connected_component_g)$names, family = "serif")+
   scale_edge_width_continuous(range = c(0.2,0.9))+
   scale_size_continuous(range = c(1,8))+
   scale_fill_manual(values = palette)+

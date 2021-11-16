@@ -27,16 +27,16 @@ top_fifty <- node_data[1:50,] #top fifty redditors measured by in degree
 top_fifty %>% ggplot(aes(x=reorder(Author, desc(InDegree), sum), y=InDegree)) + #reorder bar heights to descending
   geom_bar(stat='identity') +
   xlab("Reddit author") +
-  ggtitle(label = "Top fifty reddit authors in crypto related subreddits by in-degree") +
+  ggtitle(label = "Top 50 reddit authors in crypto related subreddits by in-degree") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) #rotate axis labels
 
 ##those with highest out degree are the most active commenters
 
-top_fifty_commenters <- node_data[1:50,] #top fifty redditors measured by out degree
-top_fifty_commenters %>% ggplot(aes(x=reorder(Author, desc(OutDegree), sum), y=OutDegree)) + #reorder bar heights to descending
+top_commenters <- node_data %>% arrange(desc(OutDegree)) %>% filter(OutDegree > 0) #top redditors measured by out degree
+top_commenters[1:50,] %>% ggplot(aes(x=reorder(Author, desc(OutDegree), sum), y=OutDegree)) + #reorder bar heights to descending
   geom_bar(stat='identity') +
   xlab("Reddit author") +
-  ggtitle(label = "Top fifty reddit authors in crypto related subreddits by out-degree") +
+  ggtitle(label = "Top 50 reddit authors in crypto related subreddits by out-degree") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),) #rotate axis labels
 
 ##identify influencers in the network using recent network methods 

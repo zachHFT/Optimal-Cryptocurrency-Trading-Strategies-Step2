@@ -330,13 +330,27 @@ The goal now, therefore, is to fit this model to our data, i.e. by finding the u
 
 .
 
-\chapter{Influence of social media on cryptocurrency prices}
+\chapter{Social media's influence on cryptocurrency prices}
 .
 \section{Price versus human behaviour}
+.
 \section{Twitter}
 \section{Medium}
 \section{Reddit}
-\subsection{Network science}
+...
+Reddit is the Internet's forum. It serves as a hub for discussion on just about anything you can think of. Naturally, therefore, cryptocurrency enthusiasts will discuss trends, advice and more in the many dedicated fora such as 'r/Cryptocurrecy' or 'r/Bitcoin'. For this reason, it is not hard to imagine that there are more prominent members of the community who feature across several fora and make frequent contributions to the community. Over time, these people may gain a reputation for some type of expertise. Such people, like in the Twitter section, we will call \textbf{influential}, or in the noun form: \textbf{influencers}. 
+
+But how can we identify such people? Reddit is largely anonymous, and many important members of the community aren't as easily identifiable as Elon Musk. Therefore, tt is important to not treat this question subjectively, since that could lead to the omission of potentially important authors whose contributions to the network of crypto traders have been valued. Consequently, we make a superficial\footnote{due to time constraints} use of network science to locate these users. 
+\subsection{Reddit as a social network}
+Reddit, by definition, is a type of social network. Therefore it lends itself to being represented mathematically in this way. However, there is a large variety at disposal here. To list some examples, one could form: a network of fora which share users; a network of users and those who comment on their posts or a network of fora and their users. Each of these cases present distinct sets of network elements: the first, a set of subreddits; the second, a set of users while the third is a mélange of the two. 
+
+To illustrate the sheer versatility of this approach, we begin by forming several networks based on subreddits and users centered at the \textbf{r/CryptoCurrency} subreddit. The data were accessed using the extensive \code{praw} library in Python, which is used for webscraping essentially all publicly visible Reddit data. 
+
+Firstly, we access a set of users who have posted in the r/CryptoCurrency subreddit across the top $500$ submissions in recent history. Their activity in the subreddit is shown in Figure ... 
+
+Of course, the goal is to find out who are the most important users in the cryptocurrency reddit network. Therefore, we then access the subreddits in which these authors are most active --- unsurprisingly, we find other cryptocurrency dedicated subreddits such as r/Bitcoin and r/ethereum. To analyse this structure more deeply, we create a social network, $G$, connecting these authors and subreddits. The first network we construct is formed in the following way: if redditor $r$ posts in subreddit $s$, then we connect $r$ and $s$ by a \textbf{link}, which we may denote $r \sim s$ (read as: $r$ is linked to $s$). We say that the \textbf{nodes} of this network are the elements connected via a link. One should notice that a network constructed in this way has a special property. It is possible to separate the set of nodes $V$ of $G$ into two groups $R \cup S$ where there exist no links between pairs of nodes where each node belongs to the same set: such network are called \textbf{bipartite}.
+
+The substructures of networks of this type are often of interest to analysts. Indeed, such networks admit two \textit{projections} which encapsulate the substructure. For example, we can form a network between subreddits $s, s' \in S$ where $s \sim s'$ whenever there is an $r$ such that $r \sim s$ and $r\sim s'$. In words: if a redditor has posted in both subreddits $s$ and $s'$, then we can create an edge between them. 
 
 
 

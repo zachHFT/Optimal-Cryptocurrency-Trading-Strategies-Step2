@@ -47,9 +47,12 @@ addNodes <- data.frame( color = c("cyan","orange"),
                       label = c("Subreddits", "Authors")) 
 
 visIgraph(g, layout = "layout.bipartite", idToLabel = F) %>% 
-  visLegend(addNodes=addNodes) %>%
+  visLegend(addNodes=addNodes) #%>%
   visNodes(id=V(g)[which(V(g)$names=='CryptoCurrency')], label="CryptoCurrency", shape='dot')
+  
+par(mfrow=c(2,2))
 visIgraph(bipartite_projection(g)$proj1)
+visIgraph(bipartite_projection(g)$proj2)
 
 freq_authors <- read.csv("freq_authors.csv")
 

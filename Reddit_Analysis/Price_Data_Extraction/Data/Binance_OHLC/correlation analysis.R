@@ -11,4 +11,5 @@ cor.test(pnl_hr$X, eth1hr$close)
 ggscatter(data=data.frame(y = pnl_hr$X0, x = eth1hr$close), x = "x", y = "y",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "PnL", ylab = "Close price")
+          xlab = "PnL", ylab = "Close price") + ggtitle("Hourly close price against proft 'n' loss trajectory")
+

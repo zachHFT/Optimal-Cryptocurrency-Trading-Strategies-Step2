@@ -249,7 +249,7 @@ Another important property is the additivity of the log-return. If our price at 
  
  
  \section{Exploratory data analysis}
-.
+
 \subsection{Distribution of prices and returns}
 
 \begin{figure}[!htbp]
@@ -384,38 +384,38 @@ Firstly, we access a set of users who have posted in the r/CryptoCurrency subred
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{Reddit_Analysis/Network_Analysis/num_posts_r_crypto.png}
-    \caption{Caption}
+    \caption{The number of posts an author makes in the r/CryptoCurrency subreddit. Notice that the names of the authors do not identify actual people, they are just online handles. This anonymity means that a truly objective approach need be taken to discover influential members of the community, before their impact is analysed.}
     \label{fig:num_posts_r_crypto}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{Reddit_Analysis/Network_Analysis/other_subs_contributions.png}
-    \caption{Caption}
+    \caption{The other subreddits frequented by users of the r/CryptoCurrency subreddit have underlying themes. Notice that r/Bitcoin, r/ethtrader, and r/investing are some of the most discussed by users of r/CryptoCurrency.}
     \label{fig:other_subs_contributions}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=.5]{Reddit_Analysis/Network_Analysis/Network Graph of Related Subreddits.png}
-    \caption{Caption}
-    \label{fig:my_label}
-\end{figure}
+%\begin{figure}
+ %   \centering
+  %  \includegraphics[scale=.525]{Reddit_Analysis/Network_Analysis/Network Graph of Related Subreddits.png}
+  %  \caption{Caption}
+  %  \label{fig:my_label}
+%\end{figure}
 
 \begin{figure}
 
 \begin{minipage}{.5\linewidth}
 \centering
-\subfloat[]{\label{main:a}\hspace{-2em} \includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/author_projection.png}}
+\subfloat[]{\label{birpartite:a}\hspace{-2em} \includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/author_projection.png}}
 \end{minipage}%
 \begin{minipage}{.5\linewidth}
 \centering
-\subfloat[]{\label{main:b}\includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/subreddit_projection.png}}
+\subfloat[]{\label{birpartite:b}\includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/subreddit_projection.png}}
 \end{minipage}\par\medskip
 \centering
-\subfloat[]{\label{main:c}\hspace{-2em}\includegraphics[scale=.4]{Reddit_Analysis/Network_Analysis/bipartite_demonstration.png}}
-\caption{my fig}
-\label{fig:main}
+\subfloat[]{\label{bipartite:c}\hspace{-2em}\includegraphics[scale=.4]{Reddit_Analysis/Network_Analysis/bipartite_demonstration.png}}
+\caption{(a) Author projection of bipartite graph $G$. (b) Subreddit projection of bipartite graph $G$. (c) $G$ shown clearly with its bipartite structure. The central blue node in (b) and (c) is the r/CryptoCurrency subreddit.}
+\label{fig:bipartite}
 \end{figure}
 
 Of course, the goal is to find out who are the most important users in the cryptocurrency reddit network. Therefore, we then access the subreddits in which these authors are most active --- unsurprisingly, we find other cryptocurrency dedicated subreddits such as r/Bitcoin and r/ethereum. To analyse this structure more deeply, we create a social network, $G$, connecting these authors and subreddits. The first network we construct is formed in the following way: if redditor $r$ posts in subreddit $s$, then we connect $r$ and $s$ by a \textbf{link}, which we may denote $r \sim s$ (read as: $r$ is linked to $s$). We say that the \textbf{nodes} of this network are the elements connected via a link. One should notice that a network constructed in this way has a special property. It is possible to separate the set of nodes $V$ of $G$ into two groups $R$ and $S$ where there exist no links between pairs of nodes where each node belongs to the same set: such network are called \textbf{bipartite}.
@@ -441,7 +441,7 @@ To make an objective conclusion on where communities form, it is necessary to at
       Edge betweenness centrality & ranks edges by the number of shortest paths passing through the edge, similar to betweenness centrality but for edges.
  \tabularnewline \hline
 \end{tabular}
-\caption{}
+\caption{Some centrality measures for nodes and edges and their descriptions. These quantities allow us to, for example, identify links across which a lot of information traverse. These allows us to split a network into communities.}
 \label{table:centralityMeasures}   
 \end{table}
 
@@ -464,33 +464,113 @@ To make an objective conclusion on where communities form, it is necessary to at
 \subsection{Assessment of profit and loss against influential redditors}\label{sec:redditPNL}
 We now use the ideas presented in section \ref{sec:redditSN} to identify the most influential reddit authors present in $n$ popular subreddits. We begin by forming an author--commenter network, where we form a \textbf{directed} graph such that if redditor $r$ comments on a post of redditor $r'$ then $r \rightarrow r'$. Indeed, we encode now each link with a direction, hence the term \textbf{directed} network. We achieved this via the \code{praw} library by extracting the top ... posts in the cryptocurrency related subreddits combined with their author and commenter data. 
 
-To study and visualise the graph, we explored the R packages \code{igraph}, \code{ggraph}, \code{visNetwork}, \code{graphlayouts} [...] extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} \cite{IVIpatterns}, which uses various statistical measures to compare various centrality measures for a graph to determine the most influential nodes, see Figure ... Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us. 
+To study and visualise the graph, we explored the R packages \code{igraph}, \code{ggraph}, \code{visNetwork}, \code{graphlayouts} [...] extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} (IVI) \cite{IVIpatterns}, which uses various statistical measures to compare various centrality measures for a graph to determine the most influential nodes, see Figure ... Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us. ...
+
+Please do visit our shiny application \url{https://kcvis.shinyapps.io/network_analysis/} to play around interactively with the network formed and discover properties of its nodes. 
+
+As you will see from the application, the author with the highest IVI centrality is \code{naji\_102} and a further analysis shows that the najority of their posts occur in ethereum related subreddits, so we focus on the pairing ETHUSDT for this redditor. The analysis thence effectuated consisted of applying the following strategy: if in a given time-frame, \code{naji\_102} makes a post, then the trader buys $1$ ETH at the current price and sells at the end of the time-frame. This was done in time-frames of one hour and one minute. Therefore, if our portfolio starts with a value $\$1000$ say, then either we do nothing (no submission was made by the author) and so the value of the portfolio does not change, or it is scaled by the ratio of the sale price to the buy price, i.e. let $V$ be the value of the portfolio at time step $i$ and $c_i$ the close price at time step $i$, then \[
+V_{i+1} = \begin{cases}
+V_i\dfrac{c_{i+1}}{c_i}, & \text{author posts at time step {i}}\\
+V_i, & \text{otherwise}.
+\end{cases}
+\] 
+This behaviour leads to a jagged trajectory, as observed in Figure \ref{fig:pnl_naji102}. We can see that the two strategies exhibit quite different behaviours over what is exactly the same time period. To evaluate their performance, we study their distribution. Plotting histograms of the data, we observe that the data for hourly and minute-wise data are bimodal and trimodal respectively, with gaussian-resembling shapes. Therefore, to draw some conclusions from the model we fit a gaussian mixture to each set of PnL data of the form \[
+\sum_{j=1}^N \lambda_{i,j}\phi(x;\,\mu_{i,j},\, \sigma_{i,j})
+\]
+for $(i,N) \in {(h,2), (m,3)}$, where if $h$ and $m$ denote hourly and minute-wise data respectively. As standard, $\phi$ is a gaussian density. Moreover the weights (or probabilities) \[
+\sum_{j=1}^N \lambda_{i,j} = 1
+\]
+for each $i$ and each $\lambda_{()}$ belongs to the unit interval.
 
 
 
-Please do visit the site \url{https://kcvis.shinyapps.io/network_analysis/} to play around interactively with the network created. 
+R admits a package \code{mixtools} which contains a function \code{normalmixEM} which computes the parameter estimation for a given parameter $k$ number of gaussians in the mixture. The results of this estimation are given in Tables \ref{table:paramesthr} and \ref{table:paramestmin}. 
 
 \begin{figure}
 \begin{minipage}{.5\linewidth}
 \centering
-\subfloat[]{\label{main:a}\hspace{-2.5em} \includegraphics[scale=.65]{Reddit_Analysis/Network_Analysis/pnl_hr_naji102.png}}
+\subfloat[]{\label{pnl:a}\hspace{-2.5em} \includegraphics[scale=.65]{Reddit_Analysis/Network_Analysis/pnl_hr_naji102.png}}
 \end{minipage}%
 \begin{minipage}{.5\linewidth}
 \centering
-\subfloat[]{\label{main:b}\includegraphics[scale=.65]{Reddit_Analysis/Network_Analysis/pnl_m_naji102.png}}
+\subfloat[]{\label{pnl:b}\includegraphics[scale=.65]{Reddit_Analysis/Network_Analysis/pnl_m_naji102.png}}
 \end{minipage}\par\medskip
 \centering
-\subfloat[]{\label{main:c}\includegraphics[scale=.8]{Reddit_Analysis/Network_Analysis/close_price_through_time_hr.png}}
-\caption{my fig}
+\subfloat[]{\label{pnl:c}\includegraphics[scale=.7]{Reddit_Analysis/Network_Analysis/close_price_through_time_hr.png}}
+\caption{(a) Profit and loss as a function of time in hours. (b) Profit and loss as a function of time in minutes. (c) The hourly close price for ethereum. All prices are in USD.}
 \label{fig:pnl_naji102}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{Reddit_Analysis/Network_Analysis/Hourly_pnl_vs_close_price.png}
-    \caption{Caption}
-    \label{fig:my_label}
-\end{figure}
+\begin{table}[!htbp] \centering 
+\begin{tabular}{@{\extracolsep{5pt}} ccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & Component 1 & Component 2 \\ 
+ \hline \\[-1.8ex]
+$\lambda_h$ & 0.446416 &  0.553584\\
+$\mu_h$   &  961.939659 & 997.786633\\
+$\sigma_h$ &  6.313457 & 16.329333\\
+\hline \\[-1.8ex] 
+\end{tabular}
+\caption{Parameter estimates for hourly data found by the EM algortihm using the \code{mixtools} package in R. We remark that the means for both components are less than $1000$, which would lead to an expected value of less than $1000$ also.}
+\label{table:paramesthr}
+\end{table}
+
+\begin{table}[!htbp] \centering 
+\begin{tabular}{@{\extracolsep{5pt}} cccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & Component 1 & Component 2 & Component 3 \\ 
+\hline \\[-1.8ex] 
+$\lambda_m$ & 0.189608 &   0.42776  &  0.382632\\
+$\mu_m$   &  997.402743 & 1005.38231 & 1012.125066\\
+$\sigma_m$  &  1.330190 &   1.47912  &  2.058693\\
+\hline \\[-1.8ex] 
+\end{tabular}
+\caption{Parameter estimates for minute-wise data found by the EM algorithm using the \code{mixtools} package in R. We remark that the means more strongly weighted components are more than $1000$. There is more scope for the distribution to maintain values above $1000$.}
+\label{table:paramestmin}
+\end{table}
+
+These estimates are suggestive. Firstly, for the hourly data, the mean of the fitted model is less than $1000$ ($981.80$) which gives an indication that our algorithm underperforms over this period, as we are on average at a loss, while the minute-wise data gives a more optimisitic outlook. One potential reason for this is that the minute-wise strategy acts on a higher resolution than the hourly model and so is more sensitive to changes potentially caused or augmented by the comments of the author(s) we have identified.  
+
+
+\begin{table}[!htbp] \centering 
+\begin{tabular}{@{\extracolsep{5pt}} ccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & 2.5\% & 97.5\% \\ 
+\hline \\[-1.8ex] 
+$\mu_{h,1}$ & $961.540$ & $997.627$ \\ 
+$\mu_{h,2}$ & $961.964$ & $1,026.290$ \\ 
+$\sigma_{h,1}$ & $6.139$ & $22.463$ \\ 
+$\sigma_{h,2}$ & $0.123$ & $16.832$ \\ 
+$\lambda_h$ & $0.423$ & $0.956$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+  \caption{Confidence intervals, found by bootstrap, for estimated parameters of mixed model for hourly data} 
+  \label{confinthr} 
+\end{table} 
+
+\begin{table}[!htbp] \centering 
+\begin{tabular}{@{\extracolsep{5pt}} ccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & 2.5\% & 97.5\% \\ 
+\hline \\[-1.8ex] 
+$\mu_{m,1}$ & $996.960$ & $1,005.391$ \\ 
+$\mu_{m,2}$ & $997.391$ & $1,014.062$ \\ 
+$\sigma_{m,1}$ & $0.848$ & $5.126$ \\ 
+$\sigma_{m,2}$ & $0.001$ & $3.338$ \\ 
+$\lambda_{m,1}$ & $0.154$ & $0.738$ \\ 
+$\lambda_{m,2}$ & $0.024$ & $0.687$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+  \caption{Confidence intervals, found by bootstrap, for estimated parameters of mixed model for minute-wise data} 
+  \label{confintmin} 
+\end{table}
+
+
+
 
 
 

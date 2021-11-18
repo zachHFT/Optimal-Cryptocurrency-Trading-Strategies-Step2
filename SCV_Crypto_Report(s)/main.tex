@@ -456,21 +456,14 @@ To make an objective conclusion on where communities form, it is necessary to at
 \label{table:centralityMeasures}   
 \end{table}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Reddit_Analysis/Network_Analysis/centrality_heatmap.png}
+    \caption{Various centrality scores for the subreddit projection $G_S$ of our original network $G$ in a heat map. We see that of course CryptoCurrency has the highest degree centrality because every redditor we considered in this section is a contributor there. However, for other measures, like eigenvector centrality, }
+    \label{table:centralitySubreddits}  
+\end{figure}
+ 
 
-
-
-...
-\begin{table}[htbp]
-\centering
-\begin{tabular}{|l|p{0.65\linewidth}|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Subreddit}} & \multicolumn{1}{c|}{\textbf{Centrality Measure}}
-\tabularnewline \hline
- \tabularnewline \hline
-\end{tabular}
-\caption{Various centrality scores for the subreddit projection $G_S$ of our original network $G$.}
-\label{table:centralitySubreddits}   
-\end{table}
 
 \subsection{Assessment of profit and loss against influential redditors}\label{sec:redditPNL}
 We now use the ideas presented in section \ref{sec:redditSN} to identify the most influential reddit authors present in $n$ popular subreddits. We begin by constructing an author--commenter network, where we form a \textbf{directed} graph such that if redditor $r$ comments on a post of redditor $r'$ then $r \rightarrow r'$. Indeed, we encode now each link with a direction, hence the term \textbf{directed} network. We achieved this via the \code{praw} library by extracting the top ... posts in the cryptocurrency related subreddits combined with their author and commenter data. 

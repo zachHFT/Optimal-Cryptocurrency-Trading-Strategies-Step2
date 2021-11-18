@@ -368,6 +368,16 @@ The goal now, therefore, is to fit this model to our data, i.e. by finding the u
 \chapter{Social media's influence on cryptocurrency prices}
 .
 \section{Price versus human behaviour}
+Some introduction, including some references...
+\begin{strategy}[Backtesting for profit and loss]
+If in a given time-frame, our entity-of-interest (e.g. person or news agency) outputs content on a media outlet, then the trader buys $1$ ETH at the current price and sells at the end of the time-frame. The time frame could be one second, for example. Thus, we suppose that our portfolio starts with a value $V_0$, and then we increment time. At each step, either we do nothing (no contribution was made by the entity) and so the value of the portfolio does not change, or it is scaled by the ratio of the sell price to the buy price, i.e. let $V_i$ be the value of the portfolio at time step $i$ and $c_i$ the close price at time step $i$, then \[
+V_{i+1} = \begin{cases}
+\dfrac{c_{i+1}}{c_i}V_i, & \text{entity outputs at time step}\, i,\\
+V_i, & \text{otherwise}.
+\end{cases}
+\] 
+The resulting sequence $(V_i)_i$ is called the profit and loss of the strategy and is often abbreviated to PnL. We will implement this strategy for each media outlet in order to assess the effectiveness, at least superficially, of our algorithm and in turn, the influence of media on cryptocurrency prices. 
+\end{strategy} 
 
 \section{Twitter}
 Twitter is an American microblogging and social networking service on which users post and interact with messages known as "tweets". Users can post, like, and share (or retweet) tweets.
@@ -379,7 +389,6 @@ We have used the python library snscrape.modules.twitter to collect the data we 
 
 \section{Medium}
 \section{Reddit}
-...
 Reddit is the Internet's forum. It serves as a hub for discussion on just about anything you can think of. Naturally, therefore, cryptocurrency enthusiasts will discuss trends, advice and more in the many dedicated fora such as 'r/Cryptocurrecy' or 'r/Bitcoin'. For this reason, it is not hard to imagine that there are more prominent members of the community who feature across several fora and make frequent contributions to the community. Over time, these people may gain a reputation for some type of expertise. Such people, like in the Twitter section, we will call  \textbf{influencers}. 
 
 But how can we identify such people? Reddit is largely anonymous, and many important members of the community aren't as easily identifiable as Elon Musk. Therefore, it is important to not treat this question subjectively, since that could lead to the omission of potentially important authors whose contributions to the network of crypto traders have been valued. Consequently, we make a superficial\footnote{due to time constraints} use of network science to locate these users. 
@@ -437,7 +446,7 @@ What can we learn from such a network? For instance, it is of no doubt an intere
 
 To make an objective conclusion on where communities form, it is necessary to attribute a degree of importance or \textbf{centrality} to nodes and edges within a network, some measures of centrality are detailed in Table \ref{table:centralityMeasures}.
 
-\begin{table}[htbp]
+\begin{table}[t]
 \centering
 \begin{tabular}{|l|p{0.65\linewidth}|}
 \hline
@@ -456,15 +465,13 @@ To make an objective conclusion on where communities form, it is necessary to at
 \label{table:centralityMeasures}   
 \end{table}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{Reddit_Analysis/Network_Analysis/centrality_heatmap.png}
-    \caption{Various centrality scores for the subreddit projection $G_S$ of our original network $G$ in a heat map. We see that of course CryptoCurrency has the highest degree centrality because every redditor we considered in this section is a contributor there. However, for other measures, like eigenvector centrality, }
+    \includegraphics[width=0.6\linewidth]{Reddit_Analysis/Network_Analysis/centrality_heatmap.png}
+    \caption{Various centrality scores for the subreddit projection $G_S$ of our original network $G$ in a heatmap, note the scores have been normalised across the graph to sum to one for each measure. We see that of course CryptoCurrency has the highest degree centrality because every redditor we considered in this section is a contributor there. However, for other measures, like eigenvector centrality, we see that the other subreddits listed here have relatively high scores considering the centrality of Cryptocurrency, and so are frequented a lot by redditors, comparatively speaking.}
     \label{table:centralitySubreddits}  
 \end{figure}
  
-
-
 \subsection{Assessment of profit and loss against influential redditors}\label{sec:redditPNL}
 We now use the ideas presented in section \ref{sec:redditSN} to identify the most influential reddit authors present in $n$ popular subreddits. We begin by constructing an author--commenter network, where we form a \textbf{directed} graph such that if redditor $r$ comments on a post of redditor $r'$ then $r \rightarrow r'$. Indeed, we encode now each link with a direction, hence the term \textbf{directed} network. We achieved this via the \code{praw} library by extracting the top ... posts in the cryptocurrency related subreddits combined with their author and commenter data. 
 
@@ -487,12 +494,7 @@ Please visit our Rshiny application \url{https://kcvis.shinyapps.io/network_anal
 \label{fig:pnl_naji102}
 \end{figure}
 
-As you see from the \code{Shiny} application, the author with the highest IVI centrality is \code{naji\_102} and a further analysis shows that the najority of their posts occur in ethereum related subreddits, so we focus on the pairing ETHUSDT for this redditor. The analysis thence effectuated consisted of applying the following strategy: if in a given time-frame, \code{naji\_102} makes a post, then the trader buys $1$ ETH at the current price and sells at the end of the time-frame. This was done in time-frames of one hour and one minute. Therefore, if our portfolio starts with a value $\$1000$ say, then either we do nothing (no submission was made by the author) and so the value of the portfolio does not change, or it is scaled by the ratio of the sale price to the buy price, i.e. let $V$ be the value of the portfolio at time step $i$ and $c_i$ the close price at time step $i$, then \[
-V_{i+1} = \begin{cases}
-V_i\dfrac{c_{i+1}}{c_i}, & \text{author posts at time step {i}}\\
-V_i, & \text{otherwise}.
-\end{cases}
-\] 
+As you see from the RShiny application, the author with the highest IVI centrality is \code{naji\_102} and a further analysis shows that the najority of their posts occur in ethereum related subreddits, so we focus on the pairing ETHUSDT for this redditor. The analysis thence effectuated consisted of applying the strategy outlined in section \ref{sec:pricevshumanbehaviour}.
 This behaviour leads to a jagged trajectory, as observed in Figure \ref{fig:pnl_naji102}.We can see that the two strategies exhibit quite different behaviours over what is exactly the same time period.
 
 

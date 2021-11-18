@@ -66,19 +66,25 @@ ui <- fluidPage(
   
   fluidRow(
     column(6,
+           offset=3,
            h5("Here, the nodes are sized according to their centrality scores. You can play around with the network in several ways: drag nodes (or the whole graph),
               highlight nodes and edges, and zoom. Click on a node to get more details about it."),
            visNetworkOutput(outputId = 'network'),
-           tableOutput("shiny_return")),
-    column(6,
-           h2("Most discussed authors"),
-           plotOutput(outputId = 'indegree')),
+           tableOutput("shiny_return")
+           )
+  ),
+  
   fluidRow(
     column(6,
-           offset=6,
+           offset=6.5,
            h2("Most active responders"),
-           plotOutput(outputId='outdegree'))
-      ),
+           plotOutput(outputId='outdegree')
+    ),
+    column(6,
+           offset = 0,
+           h2("Most discussed authors"),
+           plotOutput(outputId = 'indegree')
+    )
   )
 )
 
@@ -119,3 +125,5 @@ server <- function(input,output){
 }
 
 shinyApp(ui=ui,server=server)
+
+rsconnect::deployApp('/Users/kc/Documents/StatCompVis/CryptoProject/Optimal-Cryptocurrency-Trading-Strategies-Step2/Reddit_Analysis/Network_Analysis')

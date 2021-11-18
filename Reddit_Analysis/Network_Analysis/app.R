@@ -105,8 +105,8 @@ server <- function(input,output){
   output$shiny_return <- renderTable({
     data <- data.table("Author" = V(G)$names[which(V(G) %in% input$current_node_id)],
                        "IVI centrality" = V(G)$IVIcentrality[which(V(G) %in% input$current_node_id)],
-                       "In degree" = degree(G, mode='in')[which(V(G) %in% input$current_node_id)],
-                       "Out degree" = degree(G, mode='out')[which(V(G) %in% input$current_node_id)])
+                       "In degree" = degree(g, mode='in')[which(V(g)$names %in% V(G)$names[unlist(input$current_node_id)])],
+                       "Out degree" = degree(g, mode='out')[which(V(g)$names %in% V(G)$names[unlist(input$current_node_id)])])
   })
   
   output$indegree <- renderPlot({

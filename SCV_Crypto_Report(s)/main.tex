@@ -341,16 +341,63 @@ The goal now, therefore, is to fit this model to our data, i.e. by finding the u
 Reddit is the Internet's forum. It serves as a hub for discussion on just about anything you can think of. Naturally, therefore, cryptocurrency enthusiasts will discuss trends, advice and more in the many dedicated fora such as 'r/Cryptocurrecy' or 'r/Bitcoin'. For this reason, it is not hard to imagine that there are more prominent members of the community who feature across several fora and make frequent contributions to the community. Over time, these people may gain a reputation for some type of expertise. Such people, like in the Twitter section, we will call \textbf{influential}, or in the noun form: \textbf{influencers}. 
 
 But how can we identify such people? Reddit is largely anonymous, and many important members of the community aren't as easily identifiable as Elon Musk. Therefore, tt is important to not treat this question subjectively, since that could lead to the omission of potentially important authors whose contributions to the network of crypto traders have been valued. Consequently, we make a superficial\footnote{due to time constraints} use of network science to locate these users. 
-\subsection{Reddit as a social network}
+\subsection{Reddit as a social network}\label{sec:redditSN}
 Reddit, by definition, is a type of social network. Therefore it lends itself to being represented mathematically in this way. However, there is a large variety at disposal here. To list some examples, one could form: a network of fora which share users; a network of users and those who comment on their posts or a network of fora and their users. Each of these cases present distinct sets of network elements: the first, a set of subreddits; the second, a set of users while the third is a mélange of the two. 
 
 To illustrate the sheer versatility of this approach, we begin by forming several networks based on subreddits and users centered at the \textbf{r/CryptoCurrency} subreddit. The data were accessed using the extensive \code{praw} library in Python, which is used for webscraping essentially all publicly visible Reddit data. 
 
 Firstly, we access a set of users who have posted in the r/CryptoCurrency subreddit across the top $500$ submissions in recent history. Their activity in the subreddit is shown in Figure ... 
 
-Of course, the goal is to find out who are the most important users in the cryptocurrency reddit network. Therefore, we then access the subreddits in which these authors are most active --- unsurprisingly, we find other cryptocurrency dedicated subreddits such as r/Bitcoin and r/ethereum. To analyse this structure more deeply, we create a social network, $G$, connecting these authors and subreddits. The first network we construct is formed in the following way: if redditor $r$ posts in subreddit $s$, then we connect $r$ and $s$ by a \textbf{link}, which we may denote $r \sim s$ (read as: $r$ is linked to $s$). We say that the \textbf{nodes} of this network are the elements connected via a link. One should notice that a network constructed in this way has a special property. It is possible to separate the set of nodes $V$ of $G$ into two groups $R \cup S$ where there exist no links between pairs of nodes where each node belongs to the same set: such network are called \textbf{bipartite}.
+Of course, the goal is to find out who are the most important users in the cryptocurrency reddit network. Therefore, we then access the subreddits in which these authors are most active --- unsurprisingly, we find other cryptocurrency dedicated subreddits such as r/Bitcoin and r/ethereum. To analyse this structure more deeply, we create a social network, $G$, connecting these authors and subreddits. The first network we construct is formed in the following way: if redditor $r$ posts in subreddit $s$, then we connect $r$ and $s$ by a \textbf{link}, which we may denote $r \sim s$ (read as: $r$ is linked to $s$). We say that the \textbf{nodes} of this network are the elements connected via a link. One should notice that a network constructed in this way has a special property. It is possible to separate the set of nodes $V$ of $G$ into two groups $R$ and $S$ where there exist no links between pairs of nodes where each node belongs to the same set: such network are called \textbf{bipartite}.
 
-The substructures of networks of this type are often of interest to analysts. Indeed, such networks admit two \textit{projections} which encapsulate the substructure. For example, we can form a network between subreddits $s, s' \in S$ where $s \sim s'$ whenever there is an $r$ such that $r \sim s$ and $r\sim s'$. In words: if a redditor has posted in both subreddits $s$ and $s'$, then we can create an edge between them. 
+The substructures of networks of this type are often of interest to analysts. Indeed, such networks admit two \textit{projections} which encapsulate the substructure. For example, we can form a network between subreddits $s, s' \in S$ where $s \sim s'$ whenever there is an $r$ such that $r \sim s$ and $r\sim s'$. In words: if a redditor has posted in both subreddits $s$ and $s'$, then we can create an edge between them, producing the graph in Figure ... 
+
+What can we learn from such a network? For instance, it is of no doubt an interesting question to ask whether the subreddit projection of the bipartite network form groups of subreddits within themselves. There are many algorithms out there to detect \textbf{communities} within a network, and some are identified here. In this particular case we would hope to find that financially inclined subreddits  would form communities. 
+
+To make an objective conclusion on where communities form, it is necessary to attribute a degree of importance or \textbf{centrality} to nodes and edges within a network, some measures of centrality are detailed in Table \ref{table:centralityMeasures}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|p{0.65\linewidth}|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Centrality Measure}} & \multicolumn{1}{c|}{\textbf{Qualitative Description}}
+\tabularnewline \hline
+      Degree centrality & the fraction of nodes it is connected to. It is used to determine what nodes are most connected. \\
+      \hline
+      Betweenness  centrality & measures the number of shortest paths that the node lies on. This centrality is usually used to determine the flow of information through the graph. The idea here is that even while the node may not have the largest degree, it is important to the network if it lies on many of the shortest paths connecting two nodes in the graph. Think of transoceanic internet traffic and the router network: routers connecting the US and the UK will be very important to this network and indeed will separate two communities, even if in those communities their degree is not as high as elsewhere. It is these nodes one wishes to identify.\\
+      \hline 
+      Eigenvector centrality & Measures the node’s relative influence in the network, or how well a node is connected to other highly connected nodes. \\
+      \hline 
+      Edge betweenness centrality & ranks edges by the number of shortest paths passing through the edge, similar to betweenness centrality but for edges.
+ \tabularnewline \hline
+\end{tabular}
+\caption{}
+\label{table:centralityMeasures}   
+\end{table}
+
+
+
+
+...
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|p{0.65\linewidth}|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Subreddit}} & \multicolumn{1}{c|}{\textbf{Centrality Measure}}
+\tabularnewline \hline
+ \tabularnewline \hline
+\end{tabular}
+\caption{Various centrality scores for the subreddit projection $G_S$ of our original network $G$.}
+\label{table:centralitySubreddits}   
+\end{table}
+
+\subsection{Assessment of profit and loss against influential redditors}\label{sec:redditPNL}
+We now use the ideas presented in section \ref{sec:redditSN} to identify the most influential reddit authors present in $n$ popular subreddits. We begin by forming an author--commenter network, where we form a \textbf{directed} graph such that if redditor $r$ comments on a post of redditor $r'$ then $r \rightarrow r'$. Indeed, we encode now each link with a direction, hence the term \textbf{directed} network. We achieved this via the \code{praw} library by extracting the top ... posts in the cryptocurrency related subreddits combined with their author and commenter data. 
+
+To study and visualise the graph, we explored the R packages \code{igraph}, \code{ggraph}, \code{visNetwork}, \code{graphlayouts} [...] extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} \cite{IVIpatterns}, which uses various statistical measures to compare various centrality measures for a graph to determine the most influential nodes, see Figure ... Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} is most useful to us here in this study.
+
+
+
 
 
 

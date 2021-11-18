@@ -152,10 +152,35 @@ bodyfont=\fontfamily{cmss}\selectfont\itshape,
 \chapter{Introduction}
 
 \section{Background and scope}
+Let's begin by presenting a general overview, during which we'll go through the key-terms needed to understand this project.\\
+When faced with a given cryptocurrency, what we see on a price chart is the value of a single \textbf{token}.
+The value of a token is equal to the market cap (total value of the network) of a currency divided by the total circulating supply (number of tokens).
+Bitcoin has a circulating supply of 19 million tokens but a total supply of 21 million tokens.\\ The difference between the circulating supply and the total supply is the amount still available to be mined, and indicates future inflation. 
+$$Token_{BTC}=\frac{MC_{current}}{CS_{current}}$$
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.7]{TestPlots/BTC_overview.png}
+    \caption{}
+    \label{}
+\end{figure}
+\\
+Just by looking at this chart, one can realise how volatile bitcoin has been and this particularity is shared by many other cryptocurrencies.\\
+Bitcoin went from $10K\$$ in September 2020 to over $60K\$$ in April 2021, but also lost half of it's value from April to July 2021.
+One can say without doubt that the prices are on a roller coaster, everyone wants to experience the upward trends however the downfalls are extremely scary.\\
+
+Of course, not all cryptos follow the same trends some might be rising while others are crashing, and the goal of crypto-trading is to ride the right wave at the right time, and jump off the ship before it sinks. That is why we will be dealing with crypto pairs which are explained further.\\
+The prices fluctuate according to many variables such as news, regulations, announcements, general sentiment etc... Of course risk is involved and that's why the best way to navigate these dangerous waters is to have a set plan and the right logic to follow.
+
+
+
+
+
+
+
 \section{Aim}
 \begin{itemize}
     \item 
-The goal of this project is to proceed to the analysis of an optimal trading (buy-and-sell) strategy for the market of Cryptocurrencies. We expect such a strategy, if sucessful, also applicable to the case of traditionnal stock markets. (note: Cryptocurrencies data are traditionnaly more easily and freely available than stock markets data, which are often pricey)
+The goal of this project is to proceed to the analysis of an optimal trading (buy-and-sell) strategy for the market of Cryptocurrencies. We expect such a strategy, if successful, also applicable to the case of traditional stock markets. (note: Cryptocurrencies data are usually more easily and freely available than stock markets data, which are often pricey)
     \item
 The first part of the project will consist in showing you how to access the data of all historical data available on Binance. We choose Binance because it is one, if not the only exchange, with a properly working API which also have historical data up to 2017 and for the widest range of cryptocurrency pairs, and therefore the most diverse range of applicable trading strategy (arbitrage, sentiment-driven prices, trends, market making, etc).
     \item{
@@ -394,7 +419,9 @@ To make an objective conclusion on where communities form, it is necessary to at
 \subsection{Assessment of profit and loss against influential redditors}\label{sec:redditPNL}
 We now use the ideas presented in section \ref{sec:redditSN} to identify the most influential reddit authors present in $n$ popular subreddits. We begin by forming an author--commenter network, where we form a \textbf{directed} graph such that if redditor $r$ comments on a post of redditor $r'$ then $r \rightarrow r'$. Indeed, we encode now each link with a direction, hence the term \textbf{directed} network. We achieved this via the \code{praw} library by extracting the top ... posts in the cryptocurrency related subreddits combined with their author and commenter data. 
 
-To study and visualise the graph, we explored the R packages \code{igraph}, \code{ggraph}, \code{visNetwork}, \code{graphlayouts} [...] extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} \cite{IVIpatterns}, which uses various statistical measures to compare various centrality measures for a graph to determine the most influential nodes, see Figure ... Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} is most useful to us here in this study.
+To study and visualise the graph, we explored the R packages \code{igraph}, \code{ggraph}, \code{visNetwork}, \code{graphlayouts} [...] extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} \cite{IVIpatterns}, which uses various statistical measures to compare various centrality measures for a graph to determine the most influential nodes, see Figure ... Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us. 
+
+Please do visit the site \url{https://kcvis.shinyapps.io/network_analysis/} to play around interactively with the network created. 
 
 
 

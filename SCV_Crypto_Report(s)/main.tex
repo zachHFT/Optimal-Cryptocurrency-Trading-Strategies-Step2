@@ -152,11 +152,14 @@ bodyfont=\fontfamily{cmss}\selectfont\itshape,
 \chapter{Introduction}
 
 \section{Background and scope}
-Let's begin by presenting a general overview, during which we'll go through the key-terms needed to understand this project.\\
+Let's begin by presenting a general overview, during which we'll go through the key-terms needed to understand this project.
+
 When faced with a given cryptocurrency, what we see on a price chart is the value of a single \textbf{token}.
 The value of a token is equal to the market cap (total value of the network) of a currency divided by the total circulating supply (number of tokens).
-Bitcoin has a circulating supply of 19 million tokens but a total supply of 21 million tokens.\\ The difference between the circulating supply and the total supply is the amount still available to be mined, and indicates future inflation. 
-$$Token_{BTC}=\frac{MC_{current}}{CS_{current}}$$
+Bitcoin has a circulating supply of 19 million tokens but a total supply of 21 million tokens. The difference between the circulating supply and the total supply is the amount still available to be mined, and indicates future inflation. 
+\[
+Token_{BTC}=\frac{MC_{current}}{CS_{current}}
+\]
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale = 0.7]{TestPlots/BTC_overview.png}
@@ -219,7 +222,14 @@ You can find the code in the \code{get\_uptodate\_binance\_data.py} file
 
 \end{itemize}
 
-It is important to note that sometimes the dataset obtained via the extraction in Python can have missing rows of data, i.e. a time series with some missing dates/times depending on the resolution of the data set. As our analyses will be making decisions at every time step in the relevant dataset, this is inconvenient. One way to circumvent this is to \textbf{impute} the time series, and there are software packages available to do this. For example, in section \ref{reddit} on Reddit networks, an R package called \code{imputeTS} is used to do this, with the function \code{na_kalman} which replaces \code{NA} values in the dataset using nearby values by Kalman Smoothing []. This method one of the most recommended in the package []. 
+It is important to note that sometimes the dataset obtained via the extraction in Python can have missing rows of data, i.e. a time series with some missing dates/times depending on the resolution of the data set. As our analyses will be making decisions at every time step in the relevant dataset, this is inconvenient. One way to circumvent this is to \textbf{impute} the time series, and there are software packages available to do this. For example, in section \ref{reddit} on Reddit networks, an R package called \code{imputeTS} is used to do this, with the function \code{na\_kalman} which replaces \code{NA} values in the dataset using nearby values by Kalman Smoothing []. This method is one of the most recommended in the package [],
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{Reddit_Analysis/Price_Data_Extraction/Data/Binance_OHLC/imputed_gg_1m.png}
+    \caption{Imputed values of time series. The graph is generated automatically with the function \code{ggplot\_na\_imputations} in the \code{imputeTS} package.}
+    \label{fig:imputations}
+\end{figure}
 
 
 Going further...
@@ -405,9 +415,9 @@ Below is a brief overview of what we are going to do in this section.
 \end{itemize}
 
 \subsection{Data Extraction}
-In this part, we present the methods to extract data of price change and the medium publication.
+In this part, we present the methods to extract data of price change and the medium publication. 
 
-For 
+For the medium publication, we use Webscrapping techniques via python libraries (BeautifulSoup4 and selenium). At first, we use request to acquire the source code of the website from \url{https://medium.com/@kyberteam }. With the use of seleni
 
 
 
@@ -644,5 +654,13 @@ This analysis is of course limited. For example, we didn't consider the content 
 
 
 
+
+
+
+
+
 \end{spacing}
+\cite{IVIpatterns}
+\bibliographystyle{unsrt} 
+\bibliography{refs}
 \end{document}

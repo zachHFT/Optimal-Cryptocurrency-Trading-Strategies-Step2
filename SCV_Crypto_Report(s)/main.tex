@@ -35,12 +35,9 @@
   \colorbox{red!50}{$\displaystyle#1$}}
 \usepackage{url}
 \usepackage{cancel}
-%\usepackage{subfig}
+\usepackage{subfig}
 \usepackage{mwe}
 \usepackage{caption}
-
-
-
 
 \usepackage{float}
 
@@ -138,6 +135,7 @@ bodyfont=\fontfamily{cmss}\selectfont\itshape,
 \newcommand{\dif}[1]{\text{d}#1}
 
 \newcommand{\code}{\texttt}
+\renewcommand{\floatpagefraction}{.8}
 
 \definecolor{fcolor}{RGB}{0,255,255}
 
@@ -389,16 +387,47 @@ We have used the python library snscrape.modules.twitter to collect the data we 
 
 
 \section{Medium}
+Medium is an American online publishing platform developed by Evan Williams and launched in August 2012. It is owned by A Medium Corporation. The platform is an example of social journalism, having a hybrid collection of amateur and professional people and publications, or exclusive blogs or publishers on Medium, and is regularly regarded as a blog host.
+
+Many cryptocurrencies are ran by companies. These companies keep and matain the currency they create, and they use social media to promote their products. Medium, as a famous and influential social media platform, is often used to publish announcement and news of the company. One of the article says that there is a correlation between the time they publish article and the price of their cryptocurrencies. The currency they analyze is called Kyber (KNC). In this section, we are going to investigate the correlation between them in Kyber.
+
+Below is a brief overview of what we are going to do in this section.
+
+\begin{itemize}
+    \item Data Extraction\\
+    Here, we introduce how we collecet the price data and publication data.
+    \item Statistical analysis\\
+    After collecting data, we do some statistical analysis to explore our dataset.
+    \item Strategy\\
+    Knowing the statistical property, we try to use the result we obtained to build a strategy that performs better than the general market.
+\end{itemize}
+
+\subsection{Data Extraction}
+In this part, we present the methods to extract data of price change and the medium publication.
+
+For 
+
+
+
+
+\subsection{Analysis}
+
+
+
+
+
 \section{Reddit}
 Reddit is the Internet's forum. It serves as a hub for discussion on just about anything you can think of. Naturally, therefore, cryptocurrency enthusiasts will discuss trends, advice and more in the many dedicated fora such as 'r/Cryptocurrecy' or 'r/Bitcoin'. For this reason, it is not hard to imagine that there are more prominent members of the community who feature across several fora and make frequent contributions to the community. Over time, these people may gain a reputation for some type of expertise. Such people, like in the Twitter section, we will call  \textbf{influencers}. 
 
 But how can we identify such people? Reddit is largely anonymous, and many important members of the community aren't as easily identifiable as Elon Musk. Therefore, it is important to not treat this question subjectively, since that could lead to the omission of potentially important authors whose contributions to the network of crypto traders have been valued. Consequently, we make a superficial\footnote{due to time constraints} use of network science to locate these users. 
+
 \subsection{Reddit as a social network}\label{sec:redditSN}
-Reddit, by definition, is a social network. Therefore it lends itself to being represented mathematically in this way. However, there is a large variety at disposal here. To list some examples, one could form: a network of fora which share users; a network of users and those who comment on their posts or a network of fora and their users. Each of these cases present distinct sets of network elements: the first, a set of fora; the second, a set of users while the third is an interesting mélange of the two. 
 
-To illustrate the sheer versatility of this approach, we begin by forming several networks (or interchangeably, \textit{graphs}) based on subreddits and users centered at the \textbf{r/CryptoCurrency} subreddit. The data were accessed using the extensive \code{praw} library in Python, which is used for webscraping essentially all publicly visible Reddit data. 
+Reddit, by definition, is a social network. It connects human beings together through online interaction. Therefore it lends itself to being represented mathematically in this way. However, there are many ways to do this. To list some examples, one could form: a network of fora which share users; a network of users and those who comment on their posts or a network of fora and their users. Each of these cases present distinct sets of network elements: the first, a set of fora; the second, a set of users while the third is an interesting mélange of the two. 
 
-Before we begin, let us define some terminology that will be used throughout this section with regard to Reddit. A \textit{subreddit} is a forum dedicated to a given topic, these terms will be used interchangeably. A user, author or \textit{redditor}, is someone who actively uses reddit by posting comments or making \textit{submissions}, which are posts that start a \underline{discussion} within a subreddit. In this section, we will often work with 'top' posts. These are posts that have been identified as popular or highly rated by Reddit. If you're not already familiar, please visit the site (\url{www.reddit.com}) and have a look around, there are myriad topics there and indubitably one will catch your eye!\\ 
+To illustrate the sheer versatility of this approach, and introduce some of the ideas used in our analysis, we begin by forming several networks (or interchangeably, \textit{graphs}) based on subreddits and users centered at the \textbf{r/CryptoCurrency} subreddit. The data were accessed using the extensive \code{praw} library in Python, which is used for webscraping essentially all publicly visible Reddit data. 
+
+Before we begin, let us define some terminology that will be used throughout this section. A \textit{subreddit} is a forum dedicated to a given topic; these terms will be used interchangeably. A user, author or \textit{redditor}, is someone who actively uses reddit by making \textit{submissions} or posting \textit{comments} on those submissions, where the former are posts that start a \underline{discussion} within a subreddit. In this section, we will often work with 'top' posts. These are posts that have been identified as popular or highly rated by Reddit users. If you're not already familiar, please visit the site (\url{www.reddit.com}) and have a look around, there are myriad topics there and indubitably one will catch your eye!\\ 
 
 We will access a set of users who have posted in the r/CryptoCurrency subreddit across the top $500$ submissions in recent history. Their activity in the subreddit is shown in Figure \ref{fig:num_posts_r_crypto}. 
 
@@ -423,29 +452,17 @@ We will access a set of users who have posted in the r/CryptoCurrency subreddit 
   %  \label{fig:my_label}
 %\end{figure}
 
-\begin{figure}
 
-\begin{minipage}{.5\linewidth}
-\centering
-\subfloat[]{\label{birpartite:a}\hspace{-2em} \includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/author_projection.png}}
-\end{minipage}%
-\begin{minipage}{.5\linewidth}
-\centering
-\subfloat[]{\label{birpartite:b}\includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/subreddit_projection.png}}
-\end{minipage}\par\medskip
-\centering
-\subfloat[]{\label{bipartite:c}\hspace{-2em}\includegraphics[scale=.4]{Reddit_Analysis/Network_Analysis/bipartite_demonstration.png}}
-\caption{(a) Author projection of bipartite graph $G$. (b) Subreddit projection of bipartite graph $G$. (c) $G$ shown clearly with its bipartite structure. The central blue node in (b) and (c) is the r/CryptoCurrency subreddit.}
-\label{fig:bipartite}
-\end{figure}
+Our goal for the moment is exploratory and we will investigate several properties of the users and related subreddits of r/CryptoCurrency. In this context, what do we mean by related? Here, we will also identify the subreddits in which the top authors in r/CryptoCurrency are also active, see Figure \ref{fig:other_subs_contributions} for a vusualisation. It is no surprise that subreddits like r/Bitcoin and r/ethtrader appear, while we also see that r/memes is popular as it is a general, fun forum.
 
-Of course, the goal is to find out who are the most important users in the cryptocurrency reddit network. Therefore, we then access the subreddits in which these authors are most active --- unsurprisingly, we find other cryptocurrency dedicated subreddits such as r/Bitcoin and r/ethereum. To analyse this structure more deeply, we create a social network, $G$, connecting these authors and subreddits. The first network we construct is formed in the following way: if redditor $r$ posts in subreddit $s$, then we connect $r$ and $s$ by a \textbf{link}, which we may denote $r \sim s$ (read as: $r$ is linked to $s$). We say that the \textbf{nodes} of this network are the elements connected via a link. One should notice that a network constructed in this way has a special property. It is possible to separate the set of nodes $V$ of $G$ into two groups $R$ and $S$ where there exist no links between pairs of nodes where each node belongs to the same set: such network are called \textbf{bipartite}.
+To analyse this structure more deeply, we create a network, $G$, connecting these authors and subreddits. The network is formed in the following way: if redditor $r$ posts in subreddit $s$, then we connect $r$ and $s$ by a \textbf{link}, which we may denote $r \sim s$ (read as: $r$ is linked to $s$). We say that the \textbf{nodes} of this network are the elements connected via a link. One should notice that a network constructed in this way has a special property. It is possible to separate the set of nodes $V$ of $G$ into two disjoint groups or \textbf{categories} $R$ and $S$ where there exist no links between pairs of nodes where each node belongs to the same set: such networks are called \textbf{bipartite}.
 
-The substructures of networks of this type are often of interest to analysts. Indeed, such networks admit two \textit{projections} which encapsulate the substructure. For example, we can form a network between subreddits $s, s' \in S$ where $s \sim s'$ whenever there is an $r$ such that $r \sim s$ and $r\sim s'$. In words: if a redditor has posted in both subreddits $s$ and $s'$, then we can create an edge between them, producing the graph in Figure \ref{fig:bipartite}.
+The substructures of networks of this type are often of interest to analysts; indeed, bipartite networks admit two \textit{projections} which reveal the underlying structure. For example, we can form a network between subreddits, $s, s' \in S$, where $s \sim s'$ whenever there is an $r$ such that $r \sim s$ and $r\sim s'$. In words: if a redditor has posted in both subreddits $s$ and $s'$, then we can create an edge between them, producing the graphs in Figure \ref{fig:bipartite}.
 
-What can we learn from such a network? Our goal is to find nodes which are considered to be important or influential with respect to the rest of the network. As a result we need a way to assign some degree of importance or \textbf{centrality} to the nodes (or links). Some measures of centrality are detailed in Table \ref{table:centralityMeasures}.
+What can we learn from the projections? Later in this section, our goal will be to find nodes which are considered to be important or influential within a network. As a result we need a method to assign some degree of importance or \textbf{centrality} to the nodes (or links). Some measures of centrality are detailed in Table \ref{table:centralityMeasures}. To understand the need for this variety in measures imagine the following scenario: you are studying transatlantic internet traffic and its router network. The idea here is that even while the most naive measure of importance of a node, its \textbf{degree} (number of links the node has), might not be very large, it may have important positioning in the network. : routers connecting the US and the UK will be very important to this network and will separate two \textbf{communities}, even if in those communities their degree is not as high as elsewhere. It is these nodes one might wish to identify (using betweenness centrality, for example) - they are important relative to the context of the network.
 
-\begin{table}[t]
+
+\begin{table}[h]
 \small
 \centering
 \begin{tabular}{|l|p{0.65\linewidth}|}
@@ -461,38 +478,43 @@ What can we learn from such a network? Our goal is to find nodes which are consi
       Edge betweenness centrality & Ranks edges by the number of shortest paths passing through the edge, similar to betweenness centrality but for edges.
  \tabularnewline \hline
 \end{tabular}
-\caption{Some centrality measures for nodes and edges and their descriptions.  The idea here is that even while the node may not have the largest \textbf{degree} (number of links the node has), it may have important positioning in the network. Taking betweenness centrality as an example, think of transatlantic internet traffic and the router network: routers connecting the US and the UK will be very important to this network and will separate two \textbf{communities}, even if in those communities their degree is not as high as elsewhere. It is these nodes one might wish to identify - they are important relative to the context of the network.}
+\caption{Some centrality measures for nodes and edges and their descriptions.}
 \label{table:centralityMeasures}   
 \vspace{-4mm}
 \end{table}
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{Reddit_Analysis/Network_Analysis/centrality_heatmap.png}
-    \caption{Various centrality scores for the subreddit projection $G_S$ of our original network $G$ in a heatmap, note the scores have been normalised across the graph to sum to one for each measure. We see that of course CryptoCurrency has the highest degree centrality because every redditor we considered in this section is a contributor there. However, for other measures, like eigenvector centrality, we see that the other subreddits listed here have relatively high scores considering the centrality of Cryptocurrency, and so are frequented a lot by redditors, comparatively speaking.}
-    \label{table:centralitySubreddits}  
+    \captionof{figure}{Various centrality scores for the subreddit projection $G_S$ of our original network $G$ in a heatmap, note the scores have been normalised across the graph to sum to one for each measure. We see that of course CryptoCurrency has the highest degree centrality because every redditor we considered in this section is a contributor there. However, for other measures, like eigenvector centrality, we see that the other subreddits listed here have relatively high scores considering the centrality of Cryptocurrency, and so are frequented a lot by redditors, comparatively speaking.}
+    \label{fig:centralitySubreddits}  
 \end{figure}
 
 
-\subsection{Assessment of profit and loss against influential redditors}\label{sec:redditPNL}
-We now use the ideas presented in section \ref{sec:redditSN} to identify the most influential reddit authors present in $n=24$ popular subreddits. We begin by constructing an author--commenter network, where we form a \textbf{directed} graph such that if redditor $r$ comments on a post of redditor $r'$ then $r \rightarrow r'$. Indeed, we encode now each link with a direction, hence the term \textbf{directed} network. We achieved this via the \code{praw} library by extracting the top $~400$ posts in the cryptocurrency related subreddits combined with their author and comment data. 
 
-To study and visualise the graph, we explored the R packages \code{igraph}, \code{ggraph}, \code{visNetwork}, \code{graphlayouts} [...] extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} (IVI) \cite{IVIpatterns}, which uses various statistical tests to compare various centrality measures for a graph to determine the most influential nodes, see page $4$ of \cite{IVIpatterns}. Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us, find a vignette describing its function in \cite{IVIvignette}. This function will calculate the various centrality measures for us, compute the IVI for each node, which is scaled to lie between $0$ and $100$. To explore our results, please visit our Rshiny application \textbf{\url{https://kcvis.shinyapps.io/network_analysis/}} to play around interactively with the network formed and discover properties of its nodes. 
 
-\begin{figure}[H]
+\subsection{Assessment of profit and loss influenced by redditors authors}\label{sec:redditPNL}
+\begin{figure}[h]
 \begin{minipage}{.5\linewidth}
 \centering
-\subfloat[]{\label{pnl:a}\hspace{-2.5em} \includegraphics[scale=.65]{Reddit_Analysis/Network_Analysis/pnl_hr_naji102.png}}
+\subfloat[]{\label{pnl:a}\hspace{-2.5em} \includegraphics[scale=.6]{Reddit_Analysis/Network_Analysis/pnl_hr_naji102.png}}
 \end{minipage}%
 \begin{minipage}{.5\linewidth}
 \centering
-\subfloat[]{\label{pnl:b}\includegraphics[scale=.65]{Reddit_Analysis/Network_Analysis/pnl_m_naji102.png}}
+\subfloat[]{\label{pnl:b}\includegraphics[scale=.6]{Reddit_Analysis/Network_Analysis/pnl_m_naji102.png}}
 \end{minipage}\par\medskip
 \centering
-\subfloat[]{\label{pnl:c}\includegraphics[scale=.7]{Reddit_Analysis/Network_Analysis/close_price_through_time_hr.png}}
+\subfloat[]{\label{pnl:c}\includegraphics[scale=.65]{Reddit_Analysis/Network_Analysis/close_price_through_time_hr.png}}
 \caption{(a) Profit and loss as a function of time in hours. (b) Profit and loss as a function of time in minutes. (c) The hourly close price for ethereum. All prices are in USD.}
 \label{fig:pnl_naji102}
 \end{figure}
+We now use the ideas presented in section \ref{sec:redditSN} to identify the most influential reddit authors present in $n=24$ popular subreddits. We begin by constructing an author--commenter network, where we form a \textbf{directed} graph such that if redditor $r$ comments on a post of redditor $r'$ then $r \rightarrow r'$. Indeed, we encode now each link with a direction, hence the term \textbf{directed} network. We achieved this via the \code{praw} library by extracting the top $~400$ posts in the cryptocurrency related subreddits combined with their author and comment data. 
+
+
+
+To study and visualise the graph, we explored the R packages \code{igraph}, \code{ggraph}, \code{visNetwork}, \code{graphlayouts} [...] extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} (IVI) \cite{IVIpatterns}, which uses various statistical tests to compare various centrality measures for a graph to determine the most influential nodes, see page $4$ of \cite{IVIpatterns}. Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us, find a vignette describing its function in \cite{IVIvignette}. This function will calculate the various centrality measures for us, compute the IVI for each node, which is scaled to lie between $0$ and $100$. To explore our results, please visit our Rshiny application \textbf{\url{https://kcvis.shinyapps.io/network_analysis/}} to play around interactively with the network formed and discover properties of its nodes. 
+
+
 
 As you see from the RShiny application, the author with the highest IVI centrality is \code{naji\_102} and a further application of \code{praw} functionality shows that the majority of their posts occur in ethereum related subreddits, so we focus on the pairing ETHUSDT for this redditor. The analysis thence effectuated consisted of applying the strategy outlined in section \ref{sec:pricevshumanbehaviour} to the posts of this redditor between Aug 8 and Nov 11 of 2021\footnote{The reason for this choice is computational; we extracted as many popular posts as the webscraper \code{praw} would permit --- it limits use so that their servers are not overrun.}, in Python. We do this twice: once by measuring posts by hour, and again but by measuring posts by minute, then we compare the results. The nature of the strategy produces a step-like trajectory in each case, as observed in Figure \ref{fig:pnl_naji102}. We can see that the two strategies exhibit quite different behaviours over the identical time period.
 
@@ -560,7 +582,7 @@ Indeed, these estimates are suggestive. Firstly, for the hourly data, the mean o
  & 2.5\% & 97.5\% \\ 
 \hline \\[-1.8ex] 
 $\mu_{h,1}$ & $961.540$ & $997.627$ \\ 
-$\mu_{h,2}$ & $961.964$ & $1,026.290$ \\ 
+$\mu_{h,2}$ & $961.964$ & $1026.290$ \\ 
 $\sigma_{h,1}$ & $6.139$ & $22.463$ \\ 
 $\sigma_{h,2}$ & $0.123$ & $16.832$ \\ 
 $\lambda_h$ & $0.423$ & $0.956$ \\ 
@@ -576,8 +598,8 @@ $\lambda_h$ & $0.423$ & $0.956$ \\
 \hline \\[-1.8ex] 
  & 2.5\% & 97.5\% \\ 
 \hline \\[-1.8ex] 
-$\mu_{m,1}$ & $996.960$ & $1,005.391$ \\ 
-$\mu_{m,2}$ & $997.391$ & $1,014.062$ \\ 
+$\mu_{m,1}$ & $996.960$ & $1005.391$ \\ 
+$\mu_{m,2}$ & $997.391$ & $1014.062$ \\ 
 $\sigma_{m,1}$ & $0.848$ & $5.126$ \\ 
 $\sigma_{m,2}$ & $0.001$ & $3.338$ \\ 
 $\lambda_{m,1}$ & $0.154$ & $0.738$ \\ 
@@ -592,9 +614,28 @@ $\lambda_{m,2}$ & $0.024$ & $0.687$ \\
 
 To conclude, we calculate from $1000$ samples the bootstrapped $95\%$ confidence intervals for the mean of each set of PnL data. For hourly and minute-wise data respectively they are the following: $(980.916, 982.677)$ and $(1006.420, 1006.478)$. We remark that the former does not contain the estimated mean of the distribution but the lower limit is indeed very close to it. More noticeably, the former interval does not contain $1000$, so we tend to underperform with an hourly approach.
 
-This analysis is of course limited. For example, we didn't consider the content of the posts, and we performed the analysis of a relatively short time frame. But this is analysis is intended to be informative. Going further, we would aim to continue this analysis for various authors and various (longer) time frames to build a much more comprehensive strategy which encompasses all the information we glean from that analysis, nevertheless, what we observe here is promising, and certainly supports the use of network modelling to identify important members of communities. Moreover, in an even more precise analysis, it would serve to organise posts by words mentioned in them, then we can make decisions based on the content of posts and not their existence alone. 
+This analysis is of course limited. For example, we didn't consider the content of the posts, and we performed the analysis of a relatively short time frame. But this is analysis is intended to be informative. Going further, we would aim to continue this analysis for various authors and various (longer) time frames to build a much more comprehensive strategy which encompasses all the information we glean from that analysis, nevertheless, what we observe here is promising, and certainly supports the use of network modelling to identify important members of communities. Moreover, in an even more precise analysis, it would serve to organise posts by words mentioned in them, then we can make decisions based on the content of posts and not their existence alone.
+
+
+\begin{figure}[!h]
+\begin{minipage}{.5\linewidth}
+\centering
+\subfloat[]{\label{birpartite:a}\hspace{-2em} \includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/author_projection.png}}
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+\centering
+\subfloat[]{\label{birpartite:b}\includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/subreddit_projection.png}}
+\end{minipage}\par\medskip
+\centering
+\subfloat[]{\label{bipartite:c}\hspace{-2em}\includegraphics[scale=.4]{Reddit_Analysis/Network_Analysis/bipartite_demonstration.png}}
+\caption{(a) Author projection of bipartite graph $G$. (b) Subreddit projection of bipartite graph $G$. (c) $G$ shown clearly with its bipartite structure. The central blue node in (b) and (c) is the r/CryptoCurrency subreddit.}
+\label{fig:bipartite}
+\end{figure}
+
+
 
 \section{Conclusions}
+...
 
 
 

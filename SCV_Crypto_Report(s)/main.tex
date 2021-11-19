@@ -428,16 +428,17 @@ As the Kyber begun to trade on Binance since 2020-06-12, the data we select are 
 
 
 \subsection{Statistical Analysis}
-To begin with, we want to find if there are strong correlations between these variables. If we find some strong correlation between the change of price and some feature, we can use that to build a great strategy. As discussed above, we consider the difference of the log price within a day (\code{log(close)-log(open)}, we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the  Below is the correlation matrix between \code{signal} and \code{opcl}. Unfortunately, there is no strong correlation between them. Below is the table that present the correlation matrix between opcl and signal.
+To begin with, we want to find if there are strong correlations between these variables. If we find some strong correlation between the change of price and some feature, we can use that to build a great strategy. As discussed above, we consider the difference of the log price within a day (\code{log(close)-log(open)}, we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the  Below is the correlation matrix between \code{signal} and \code{opcl}. Unfortunately, there is no strong correlation between them. Below is the table that present the correlation matrix between opcl and signal. 
 
 \begin{table}[]
     \centering
-    \begin{tabular}{c|c}
-         & opcl &  signal \\
-        opcl & 1.00 & 0.05\\
-        signal & 0.05& 1.00\\
+    \begin{tabular}{|c|c|c|}
+    \hline
+         & opcl &  signal \\ \hline
+        opcl & 1.00 & 0.05\\ \hline
+        signal & 0.05& 1.00\\ \hline
     \end{tabular}
-    \caption{Caption}
+    \caption{Correlation matrix}
     \label{tab:my_label}
 \end{table}
 
@@ -450,12 +451,17 @@ Strategy 1: When the signal is 1 (Kyber update an article at that day), we spend
 
 Strategy 2: When the signal is 1 (Kyber update an article at that day), we spend all the money to buy the cryptocurrency at that day with the open price and sell them all at the same day with the close price.
 
-We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. For visualization, we assume we have 1000 dollars at the beginning of the trade.
+We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. For visualization, we assume we have 1000 dollars at the beginning of the trade. The figure (\ref{backtest medium}) below is the figure of price change of two stategies and the baseline.
 
 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale =  0.8]{Images/medium backtesting.png}
+    \caption{Back testing of two strategies mentioned above }
+    \label{backtest medium}
+\end{figure}
 
-
-
+From the figure (\ref{backtest medium}), we see that our two strategies perform better than the baseline in majority of time. We see that this strategy perform very nice between day 80 to day 200, where the price of Kyber drop drastically. However, they didn't run away from the big crush in the day 475, and the two strategies suffer a great loss at that time. To sum up, these two simple strategies outperform the baseline, while the second strategy performs the best.
 
 
 

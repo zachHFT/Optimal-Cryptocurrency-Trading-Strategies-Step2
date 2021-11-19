@@ -35,7 +35,6 @@
   \colorbox{red!50}{$\displaystyle#1$}}
 \usepackage{url}
 \usepackage{cancel}
-%\usepackage{subfig}
 \usepackage{mwe}
 \usepackage{caption}
 
@@ -406,7 +405,7 @@ Many cryptocurrencies are ran by companies. These companies keep and matain the 
 Below is a brief overview of what we are going to do in this section.
 
 \begin{itemize}
-    \item Data Extraction\\
+    \item Data Preprocessing\\
     Here, we introduce how we collecet the price data and publication data.
     \item Statistical analysis\\
     After collecting data, we do some statistical analysis to explore our dataset.
@@ -414,15 +413,50 @@ Below is a brief overview of what we are going to do in this section.
     Knowing the statistical property, we try to use the result we obtained to build a strategy that performs better than the general market.
 \end{itemize}
 
-\subsection{Data Extraction}
+\subsection{Data Preprocessing}
 In this part, we present the methods to extract data of price change and the medium publication. 
 
-For the medium publication, we use Webscrapping techniques via python libraries (BeautifulSoup4 and selenium). At first, we use request to acquire the source code of the website from \url{https://medium.com/@kyberteam }. With the use of seleni
+For the medium publication, we use Webscrapping techniques via python libraries (\code{BeautifulSoup4, request} and \code{selenium}). At first, we use request to acquire the source code of the website from \url{https://medium.com/@kyberteam }. With the use of selenium, we scroll the page to the very bottom to reach the full context of the website. After that, we use functions in the library  \code{BeautifulSoup4} to parse the whole source code. With the \code{find\_all} function, we find all content that interests us. In this project, we choose \code{title} and \code{date} as our features.
+
+Another part is the access to the price. Binance gives us an API to access to the cryptocurrency price easily. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of a certain cryptocurrency.
+
+After that, we merge two dataframes together. Finally, we get our dataframe that contains feature \code{date},\code{high}(the highest price of the day),\code{low}(the lowest price of the day), \code{open}(the open price of a day), \code{close}(The close price of a day), \code{signal}(It is an indicator of whether Kyber has post an article at that day,\code{volumn}(The money traded at that day). 1 means Kyber post an article on article at that day while 0 means no articles were posted). 
+
+As the Kyber begun to trade on Binance since 2020-06-12, the data we select are between 2020-06-12 to 2021-11-16.
 
 
 
 
-\subsection{Analysis}
+\subsection{Statistical Analysis}
+To begin with, we want to find if there are strong correlations between these variables. If we find some strong correlation between the change of price and some feature, we can use that to build a great strategy. As discussed above, we consider the difference of the log price within a day (\code{log(close)-log(open)}, we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the  Below is the correlation matrix between \code{signal} and \code{opcl}. Unfortunately, there is no strong correlation between them. Below is the table that present the correlation matrix between opcl and signal.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c}
+         & opcl &  signal \\
+        opcl & 1.00 & 0.05\\
+        signal & 0.05& 1.00\\
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
+
+
+
+\subsection{Strategy}
+In this section, we try some strategies and do back testing to see if This method performs well. 
+
+Strategy 1: When the signal is 1 (Kyber update an article at that day), we spend all the money to buy the cryptocurrency at that day with the open price and sell them all at the next day with the open price.
+
+Strategy 2: When the signal is 1 (Kyber update an article at that day), we spend all the money to buy the cryptocurrency at that day with the open price and sell them all at the same day with the close price.
+
+We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. For visualization, we assume we have 1000 dollars at the beginning of the trade.
+
+
+
+
+
+
 
 
 
@@ -632,14 +666,14 @@ This analysis is of course limited. For example, we didn't consider the content 
 \begin{figure}[!h]
 \begin{minipage}{.5\linewidth}
 \centering
-\subfloat[]{\label{birpartite:a}\hspace{-2em} \includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/author_projection.png}}
+\subfloat{\label{birpartite:a}\hspace{-2em} \includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/author_projection.png}}
 \end{minipage}%
 \begin{minipage}{.5\linewidth}
 \centering
-\subfloat[]{\label{birpartite:b}\includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/subreddit_projection.png}}
+\subfloat{\label{birpartite:b}\includegraphics[scale=.25]{Reddit_Analysis/Network_Analysis/subreddit_projection.png}}
 \end{minipage}\par\medskip
 \centering
-\subfloat[]{\label{bipartite:c}\hspace{-2em}\includegraphics[scale=.4]{Reddit_Analysis/Network_Analysis/bipartite_demonstration.png}}
+\subfloat{\label{bipartite:c}\hspace{-2em}\includegraphics[scale=.4]{Reddit_Analysis/Network_Analysis/bipartite_demonstration.png}}
 \caption{(a) Author projection of bipartite graph $G$. (b) Subreddit projection of bipartite graph $G$. (c) $G$ shown clearly with its bipartite structure. The central blue node in (b) and (c) is the r/CryptoCurrency subreddit.}
 \label{fig:bipartite}
 \end{figure}
@@ -660,7 +694,9 @@ This analysis is of course limited. For example, we didn't consider the content 
 
 
 \end{spacing}
-\cite{IVIpatterns}
-\bibliographystyle{unsrt} 
+\nocite{*}
+{\small
 \bibliography{refs}
+\bibliographystyle{abbrvnat}
+}
 \end{document}

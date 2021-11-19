@@ -35,7 +35,7 @@
   \colorbox{red!50}{$\displaystyle#1$}}
 \usepackage{url}
 \usepackage{cancel}
-\usepackage{subfig}
+%\usepackage{subfig}
 \usepackage{mwe}
 \usepackage{caption}
 
@@ -218,6 +218,8 @@ Discrepancies in the timestamp of our data : Missing time periods. Every once in
 You can find the code in the \code{get\_uptodate\_binance\_data.py} file
 
 \end{itemize}
+
+It is important to note that sometimes the dataset obtained via the extraction in Python can have missing rows of data, i.e. a time series with some missing dates/times depending on the resolution of the data set. As our analyses will be making decisions at every time step in the relevant dataset, this is inconvenient. One way to circumvent this is to \textbf{impute} the time series, and there are software packages available to do this. For example, in section \ref{reddit} on Reddit networks, an R package called \code{imputeTS} is used to do this, with the function \code{na_kalman} which replaces \code{NA} values in the dataset using nearby values by Kalman Smoothing []. This method one of the most recommended in the package []. 
 
 
 Going further...
@@ -416,7 +418,7 @@ For
 
 
 
-\section{Reddit}
+\section{Reddit}\label{reddit}
 Reddit is the Internet's forum. It serves as a hub for discussion on just about anything you can think of. Naturally, therefore, cryptocurrency enthusiasts will discuss trends, advice and more in the many dedicated fora such as 'r/Cryptocurrecy' or 'r/Bitcoin'. For this reason, it is not hard to imagine that there are more prominent members of the community who feature across several fora and make frequent contributions to the community. Over time, these people may gain a reputation for some type of expertise. Such people, like in the Twitter section, we will call  \textbf{influencers}. 
 
 But how can we identify such people? Reddit is largely anonymous, and many important members of the community aren't as easily identifiable as Elon Musk. Therefore, it is important to not treat this question subjectively, since that could lead to the omission of potentially important authors whose contributions to the network of crypto traders have been valued. Consequently, we make a superficial\footnote{due to time constraints} use of network science to locate these users. 

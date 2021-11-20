@@ -37,18 +37,13 @@
 \usepackage{cancel}
 \usepackage{mwe}
 \usepackage{caption}
-
 \usepackage{float}
-
 \usepackage[numbers]{natbib}
-
 \usepackage{setspace}
-
+\usepackage{hyperref}
 \usepackage{subcaption}
-
 \usepackage{varwidth}
 \usepackage{todonotes}
-
 % set the arrows as stealth fighters (personal preference)
 \tikzset{>=stealth}
 \captionsetup[figure]{labelfont={bf},name={Figure},labelsep=period}
@@ -259,7 +254,14 @@ Another important property is the additivity of the log-return. If our price at 
  
  
  \section{Exploratory data analysis}
-Purpose of EDA:
+Exploratory data analysis (EDA) is used in data analysis to analyze and investigate data sets and summarize their main characteristics. It helps determine how best to manipulate data sources to get the answers you need, making it easier to discover patterns, spot anomalies, test a hypothesis, or check assumptions.
+
+EDA is primarily used to see what data can reveal beyond the formal modeling or hypothesis testing task and provides a provides a better understanding of data set variables and the relationships between them. It can also help determine if the statistical techniques you are considering for data analysis are appropriate. Originally developed by American mathematician John Tukey in the 1970s, EDA techniques continue to be a widely used method in the data discovery process today.
+
+The main purpose of EDA is to help look at data before making any assumptions. It can help identify obvious errors, as well as better understand patterns within the data, detect outliers or anomalous events, find interesting relations among the variables.
+
+
+
 \subsection{Distribution of prices and returns}
 
 
@@ -283,7 +285,7 @@ Purpose of EDA:
 \end{figure}
 
 
-Figure \ref{log return box} shows the box plot of log-return of BTC. As can be seen from the graph, there are many outliers of the box plot. So it is reasonable to say that the distribution of log-return is not a normal distribution. More evidence will be given in the following sections.
+Figure (\ref{log return box}) shows the box plot of log-return of BTC. As can be seen from the graph, the mean value of log-return changing is around 0. with the first and third quantile around -0.02 and 0.02. It is worth mentioning that there are lots of outliers. This means the price change drastically for some certain days.
 
 
 
@@ -427,7 +429,9 @@ Knowing that a single person had so much power and could influence the prices ea
 \section{Medium}
 Medium is an American online publishing platform developed by Evan Williams and launched in August 2012.  The platform is an example of social journalism, having a hybrid collection of amateur and professional people and publications, or exclusive blogs or publishers on Medium, and is regularly regarded as a blog host.
 
-Many cryptocurrencies are run by companies. These companies keep and mantain the currency they create, and they use social media to promote their products. Medium, as a famous and influential social media platform, is often used to publish announcement and news of the company. One of the articles says that there is a correlation between the time they publish article and the price of their cryptocurrencies. The currency they analyze is called Kyber (KNC). In this section, we are going to investigate the correlation between them in Kyber, by...
+Many cryptocurrencies are run by companies. These companies keep and maintain the currency they create, and they use social media to promote their products. Medium, as a famous and influential social media platform, is often used to publish announcement and news of the company. One of the ideas is that there is a correlation between the time they publish article and the price of their cryptocurrencies.  The currency they analyze is called Kyber (KNC). In this section, we are going to investigate the correlation between them in Kyber. In the following section, we will at first present how we preprocess the data. Then we did some statistical analysis, after which we invented some strategies.
+
+
 
 
 
@@ -438,7 +442,7 @@ For the medium publication, we use Webscrapping techniques via python libraries 
 
 Another part is the access to the price. Binance gives us an API to access to the cryptocurrency price easily. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of a certain cryptocurrency.
 
-After that, we merge two dataframes together. The features selected are given below.
+After that, we merge two dataframes together. The features in the final dataframes are listed in the table (\ref{tab:feature})
 
 As the Kyber begun to trade on Binance since 2020-06-12, the data we select are between 2020-06-12 to 2021-11-16.
 
@@ -462,17 +466,11 @@ As the Kyber begun to trade on Binance since 2020-06-12, the data we select are 
 
 
 
-
-
-
-
-
-
-
-\subsection{Strategy and Analysis}
+\subsection{Statistical Analysis}
 To begin, we will investigate the strength of correlation between these variables. If we find some strong correlation between the change of price and some feature, we can use that to build a great strategy. As discussed above, we consider the difference of the log price within a day (\code{$\log$(close)-$\log$(open)}, we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the  Below is the correlation matrix between \code{signal} and \code{opcl}. Unfortunately, there is no strong correlation between them. Table  \ref{tab:corrMatrixOpclSignal} presents the correlation matrix between opcl and signal, this shows that there is no . 
 
 \begin{table}[!htbp]
+    \huge
     \centering
     \begin{tabular}{|c|c|c|}
     \hline
@@ -480,10 +478,11 @@ To begin, we will investigate the strength of correlation between these variable
         opcl & 1.00 & 0.05\\ \hline
         signal & 0.05& 1.00\\ \hline
     \end{tabular}
-    \caption{Correlation matrix. We see that the correlation between the two variables are very small.}
+    \caption{Correlation matrix between opcl and signal. We see that the correlation between the two variables are very small. This means that we cannot find a clear pattern between these two variables.}
     \label{tab:corrMatrixOpclSignal}
 \end{table}
 
+\subsection{Strategy}
 
 In this section, we try some strategies and do backtesting to asses their performance. 
 
@@ -501,7 +500,7 @@ We compare the two strategies with a baseline, which is the simplest strategy: b
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale =  0.8]{Images/medium backtesting.png}
-    \caption{Back testing of two strategies mentioned above }
+    \caption{Back testing of two strategies mentioned above. All the money are in USD. It can be seen clearly that the two strategy outperform the baseline in majority of time.}
     \label{backtest medium}
 \end{figure}
 
@@ -744,7 +743,7 @@ This analysis is of course limited. For example, we didn't consider the content 
 
 
 \end{spacing}
-\nocite{*}
+
 {\small
 \bibliography{refs}
 \bibliographystyle{abbrvnat}

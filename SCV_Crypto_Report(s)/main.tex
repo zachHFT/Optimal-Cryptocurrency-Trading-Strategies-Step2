@@ -101,7 +101,7 @@ bodyfont=\fontfamily{cmss}\selectfont,
   postheadspace=1em,
   qed=
 ]{mystyle5}
-\declaretheorem[style=mystyle5,numbered=no]{strategy}
+\declaretheorem[style=mystyle5,numbered=yes]{strategy}
 
 \declaretheoremstyle[
   spaceabove=6pt, spacebelow=6pt,
@@ -379,7 +379,7 @@ The goal now, therefore, is to fit this model to our data, i.e. by finding the u
 .
 \section{Price versus human behaviour}\label{sec:pricevshumanbehaviour}
 Some introduction, including some references...
-\begin{strategy}[Backtesting for profit and loss]
+\begin{strategy}[Backtesting for profit and loss]\label{PnLgeneralstrat}
 If in a given time-frame, our entity-of-interest (e.g. person or news agency) outputs content on a media outlet, then the trader buys $1$ ETH at the current price and sells at the end of the time-frame. The time frame could be one second, for example. Thus, we suppose that our portfolio starts with a value $V_0$, and then we increment time. At each step, either we do nothing (no contribution was made by the entity) and so the value of the portfolio does not change, or it is scaled by the ratio of the sell price to the buy price, i.e. let $V_i$ be the value of the portfolio at time step $i$ and $c_i$ the close price at time step $i$, then \[
 V_{i+1} = \begin{cases}
 \dfrac{c_{i+1}}{c_i}V_i, & \text{entity outputs at time step}\, i,\\
@@ -400,23 +400,14 @@ We have used the python library snscrape.modules.twitter to collect the data we 
 \section{Medium}
 Medium is an American online publishing platform developed by Evan Williams and launched in August 2012. It is owned by A Medium Corporation. The platform is an example of social journalism, having a hybrid collection of amateur and professional people and publications, or exclusive blogs or publishers on Medium, and is regularly regarded as a blog host.
 
-Many cryptocurrencies are ran by companies. These companies keep and matain the currency they create, and they use social media to promote their products. Medium, as a famous and influential social media platform, is often used to publish announcement and news of the company. One of the article says that there is a correlation between the time they publish article and the price of their cryptocurrencies. The currency they analyze is called Kyber (KNC). In this section, we are going to investigate the correlation between them in Kyber.
+Many cryptocurrencies are run by companies. These companies keep and mantain the currency they create, and they use social media to promote their products. Medium, as a famous and influential social media platform, is often used to publish announcement and news of the company. One of the articles says that there is a correlation between the time they publish article and the price of their cryptocurrencies. The currency they analyze is called Kyber (KNC). In this section, we are going to investigate the correlation between them in Kyber, by...
 
-Below is a brief overview of what we are going to do in this section.
 
-\begin{itemize}
-    \item Data Preprocessing\\
-    Here, we introduce how we collecet the price data and publication data.
-    \item Statistical analysis\\
-    After collecting data, we do some statistical analysis to explore our dataset.
-    \item Strategy\\
-    Knowing the statistical property, we try to use the result we obtained to build a strategy that performs better than the general market.
-\end{itemize}
 
 \subsection{Data Preprocessing}
 In this part, we present the methods to extract data of price change and the medium publication. 
 
-For the medium publication, we use Webscrapping techniques via python libraries (\code{BeautifulSoup4, request} and \code{selenium}). At first, we use request to acquire the source code of the website from \url{https://medium.com/@kyberteam }. With the use of selenium, we scroll the page to the very bottom to reach the full context of the website. After that, we use functions in the library  \code{BeautifulSoup4} to parse the whole source code. With the \code{find\_all} function, we find all content that interests us. In this project, we choose \code{title} and \code{date} as our features.
+For the medium publication, we use Webscrapping techniques via python libraries (\code{BeautifulSoup4, request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. Using \code{selenium}, we scroll the page to the very bottom to reach the full context of the website. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code. With the \code{find\_all} function, we find all content that interests us. In this project, we choose \code{title} and \code{date} as our features.
 
 Another part is the access to the price. Binance gives us an API to access to the cryptocurrency price easily. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of a certain cryptocurrency.
 
@@ -427,8 +418,8 @@ As the Kyber begun to trade on Binance since 2020-06-12, the data we select are 
 
 
 
-\subsection{Statistical Analysis}
-To begin with, we want to find if there are strong correlations between these variables. If we find some strong correlation between the change of price and some feature, we can use that to build a great strategy. As discussed above, we consider the difference of the log price within a day (\code{log(close)-log(open)}, we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the  Below is the correlation matrix between \code{signal} and \code{opcl}. Unfortunately, there is no strong correlation between them. Below is the table that present the correlation matrix between opcl and signal. 
+\subsection{Strategy and Analysis}
+To begin, we will investigate the strength of correlation between these variables. If we find some strong correlation between the change of price and some feature, we can use that to build a great strategy. As discussed above, we consider the difference of the log price within a day (\code{$\log$(close)-$\log$(open)}, we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the  Below is the correlation matrix between \code{signal} and \code{opcl}. Unfortunately, there is no strong correlation between them. Table  \ref{tab:corrMatrixOpclSignal} presents the correlation matrix between opcl and signal. 
 
 \begin{table}[]
     \centering
@@ -439,17 +430,19 @@ To begin with, we want to find if there are strong correlations between these va
         signal & 0.05& 1.00\\ \hline
     \end{tabular}
     \caption{Correlation matrix}
-    \label{tab:my_label}
+    \label{tab:corrMatrixOpclSignal}
 \end{table}
 
 
+In this section, we try some strategies and do backtesting to asses their performance. 
 
-\subsection{Strategy}
-In this section, we try some strategies and do back testing to see if This method performs well. 
+\begin{strategy}[Kyber Same Day]
+If Kyber updates an article on date $t$, we spend all the money to buy the cryptocurrency on date $t$ with the open price and sell them all at the open price on date $t+1$.
+\end{strategy}\label{strat:Kyber1}
 
-Strategy 1: When the signal is 1 (Kyber update an article at that day), we spend all the money to buy the cryptocurrency at that day with the open price and sell them all at the next day with the open price.
-
-Strategy 2: When the signal is 1 (Kyber update an article at that day), we spend all the money to buy the cryptocurrency at that day with the open price and sell them all at the same day with the close price.
+\begin{strategy}[Kyber Next Day]
+If Kyber updates an article at some time $t$, we spend all the money to buy the cryptocurrency at the open price on date $t$ and sell at the close price on date $t$.
+\end{strategy}\label{strat:Kyber2} 
 
 We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. For visualization, we assume we have 1000 dollars at the beginning of the trade. The figure (\ref{backtest medium}) below is the figure of price change of two stategies and the baseline.
 
@@ -461,7 +454,7 @@ We compare the two strategies with a baseline, which is the simplest strategy: b
     \label{backtest medium}
 \end{figure}
 
-From the figure (\ref{backtest medium}), we see that our two strategies perform better than the baseline in majority of time. We see that this strategy perform very nice between day 80 to day 200, where the price of Kyber drop drastically. However, they didn't run away from the big crush in the day 475, and the two strategies suffer a great loss at that time. To sum up, these two simple strategies outperform the baseline, while the second strategy performs the best.
+From the figure (\ref{backtest medium}), we see that our two strategies perform better than the baseline in majority of time. We see that this strategy perform very nice between day 80 to day 200, where the price of Kyber drop drastically. However, they didn't run away from the big crash in the day 475, and the two strategies suffer a great loss at that time. In conclusion, these two simple strategies outperform the baseline, while the second strategy performs the best.
 
 
 

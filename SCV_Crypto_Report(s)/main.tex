@@ -358,12 +358,7 @@ G(x; \eta, \tau, \xi) = \begin{cases}
 where $\eta, \tau$ and $\xi$ are location, shape and scale parameters respectively. Studying maxima in this way is called the \textbf{block maxima approach}, since one groups data and considers fitting the distribution to the maxima across all groups, for example: maximum price over one day, where the prices are indexed by hours.
 
 The goal now, therefore, is to fit this model to our data, i.e. by finding the unknown parameters. To this end, we use the $\code{R}$ package $\code{evd}$ which gives useful functions for extremal modelling and makes plotting diagnostics straightforward. 
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth, height=4in]{TestPlots/Histogram log-returns2.png}
-    \caption{Distribution of log returns using data from August 2017 to August 2021. The distribution shows some quite heavy tails.}
-    \label{fig:hist_logreturn_17_21}
-\end{figure}
+
 
 \begin{figure}
     \centering

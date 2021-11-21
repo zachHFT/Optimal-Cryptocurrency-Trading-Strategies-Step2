@@ -354,7 +354,7 @@ Eventually we seek to observe the interest by region of one particular channel, 
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[scale = 0.5]{Images/countries_map_2.png}
+    \includegraphics[scale = 0.4]{Images/countries_map_2.png}
     \caption{Map of the countries most trending for the Youtube channel Bitboy Crypto}
     \label{countries_map_2}
 \end{figure}
@@ -461,10 +461,18 @@ As the Kyber begun to trade on Binance since 2020-06-12, the data we select are 
 
 
 \subsection{Statistical Analysis}
-We will investigate the strength of correlation between \code{opcl} and other features. If we find some strong correlations between \code{opcl} and some features, we can use that fact to inform a great trading price within a day. In order to do that, we use python to calculate the Pearson's correlation between them.   Unfortunately, we can't find any features that strong correlate with the \code{opcl}. As
+We will investigate the strength of correlation between \code{opcl} and other features. If we find some strong correlations between \code{opcl} and some features, we can use that fact to inform a great trading price within a day. In order to do that, we use python to calculate the Pearson's correlation between them.   Unfortunately, we can't find any features that strong correlate with the \code{opcl}. As can be seen from figure (\ref{medium stats}), the correlations between all the features and \code{opcl} are small. The abosolute value of them are less than 0.4, which means there is no correlations or weak correlations. Therefore, we cannot use this correlation result directly to develop a new strategy.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics{Images/Medium stats.png}
+    \caption{The correlation between \code{clop} and features mentioned in the features table (\ref{tab:feature}). As can be seen, all of these correlations are less than 0.4. There are no direct correlation between these features, and we can't have a direct way to develop the strategy}
+    \label{medium stats}
+\end{figure}
+
 
 \subsection{Medium Strategy }
-
+From statistical analysis, we can't find a 
 
 
 
@@ -583,7 +591,7 @@ We now use the ideas presented in section \ref{sec:redditSN} to identify the mos
 
 
 
-To study and visualise the graph, we explored the R packages \code{igraph} (the cousin of \code{networkX} in R), \code{ggraph}, \code{visNetwork}, \code{graphlayouts} extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} (IVI), which uses various statistical tests to compare various centrality measures for a graph to determine the most influential nodes. Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us\footnote{Linked references to be added later}. This function will calculate the various centrality measures for us, compute the IVI for each node, which is scaled to lie between $0$ and $100$. To explore our results, please visit our Rshiny application \textbf{\url{https://kcvis.shinyapps.io/network_analysis/}} to play around interactively with the network formed and discover properties of its nodes. 
+To study and visualise the graph, we explored the R packages \code{igraph} (the cousin of \code{networkX} in R), \code{ggraph}, \code{visNetwork}, \code{graphlayouts} extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} (IVI), which uses various statistical tests to compare various centrality measures for a graph to determine the most influential nodes. Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us. This function will calculate the various centrality measures for us, compute the IVI for each node, which is scaled to lie between $0$ and $100$. To explore our results, please visit our Rshiny application \textbf{\url{https://kcvis.shinyapps.io/network_analysis/}} to play around interactively with the network formed and discover properties of its nodes. 
 
 
 
@@ -696,8 +704,7 @@ This analysis is of course limited. For example, we didn't consider the content 
 
 
 
-\section{Conclusions}
-...
+
 
 
 

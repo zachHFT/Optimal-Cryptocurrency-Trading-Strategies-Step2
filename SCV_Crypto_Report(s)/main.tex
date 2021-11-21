@@ -155,12 +155,12 @@ $$\text{Token}_\text{BTC}=\frac{\text{MC}}{\text{CS}}$$
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale = 0.7]{TestPlots/BTC_overview.png}
-    \caption{}
+    \caption{The price chart of Bitcoin from 2017 to 2021}
     \label{}
 \end{figure}
 
-Just by looking at this chart, one can realise how volatile bitcoin has been and this particularity is shared by many other cryptocurrencies.\\
-Bitcoin went from $10K\$$ in September 2020 to over $60K\$$ in April 2021, but also lost half of it's value from April to July 2021.
+Just by looking at the chart in \figureautorefname{ 1.1}, one can realise how volatile bitcoin has been and this particularity is shared by many other cryptocurrencies.\\
+Bitcoin went from $10\text{K}\$$ in September 2020 to over $60\text{K}\$$ in April 2021, but also lost half of it's value from April to July 2021.
 One can say without doubt that the prices are on a roller coaster, everyone wants to experience the upward trends however the downfalls are extremely scary.\\
 
 Of course, not all cryptos follow the same trends some might be rising while others are crashing, and the goal of crypto-trading is to ride the right wave at the right time, and jump off the ship before it sinks. That is why we will be dealing with crypto pairs which are explained further.\\
@@ -188,32 +188,13 @@ If you do not want to get your hands dirty (which is understandable) navigating 
 
 \section{Data}
 \subsection{Data extraction and processing}
-.
-
-\begin{itemize}
-\item{To extract the data, you can do so as per the call of \begin{center}\code{getuptodate\_binance\_data.update\_data\_for\_basepair(base\_pair=\'USDT\', nb\_symbols\_limit=5, bin\_size=\'1d\')}\end{center} in \code{get\_ohlc\_historical\_data.ipynb}}.
-
-\item{The data will be saved in a folder named \code{Binance\_OHLC} located within a 'Data' folder within your project folder. If you do not have such folders, create some. (If you are familiar with \code{chdir} python function to change and work with your choice directory you can ignore this remark).}
-
-\item{The code in \code{get\_uptodate\_binance\_data.py} contains a global variable \code{main\_directory} which has the name of my project folder I am working on. I recommend you call your project folders with the same name.}
-\end{itemize}
 
 
+Note that we have never encountered any NA values or other seemingly out-of-place values that would need to be rejected. Indeed, so called 'out-of-place values' or any other outliers kind of value are strong indicators which require further investigations and may be relevant to dedicated algorithmic trading strategies. We absolutely do not want to remove them as we may be tempted to do in some other contexts in data science.\\
+
+Discrepancies in the timestamp of our data : Missing time periods. Every once in a while there is a major crash in cryptocurrencies market (i.e. prices dropping significantly). This leads to a massive amount of people trying to connect to the cryptocurrencies exchange platforms to try to sell (or buy) some cryptocurrencies.This often results in the exchange becoming unavailable, their server not being able to handle so many connections attempts at once. This explains the missing data in historical cryptocurrencies prices data (It can be for a couple of minutes up to a couple of hours). We therefore compute 'time\_diff\_in\_days' and 'time\_diff\_in\_min' to spot any such discrepancies in the timestamp. For example, in a 1-hour dataset we expect that time difference between line i and line i-1 to be 60 min. If it appears to be 57 minutes, we know there was a crash that occured and therefore can decide our backtesting programme to not consider (i.e. to pause) this very particular time period. It is a useful method to rigoursly proceed to backtesting algorithm. \\
 
 
-\begin{itemize}
-    \item 
-We use the \code{clean\_csv} function to clean the newly downloaded data file. In particular, we setup timestamp in datetime format, to allow us to have an easier handling of the data later on.
-    \item
-We also select a subset of the columns of interest to us. In particular we keep keep the following columns: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'time\_diff\_in\_days', 'time\_diff\_in\_min'].
-    \item
-Note that we have never encountered any NA values or other seemingly out-of-place values that would need to be rejected. Indeed, so called 'out-of-place values' or any other outliers kind of value are strong indicators which require further investigations and may be relevant to dedicated algorithmic trading strategies. We absolutely do not want to remove them as we may be tempted to do in some other contexts in data science.
-    \item
-Discrepancies in the timestamp of our data : Missing time periods. Every once in a while there is a major crash in cryptocurrencies market (i.e. prices dropping significantly). This leads to a massive amount of people trying to connect to the cryptocurrencies exchange platforms to try to sell (or buy) some cryptocurrencies.This often results in the exchange becoming unavailable, their server not being able to handle so many connections attempts at once. This explains the missing data in historical cryptocurrencies prices data (It can be for a couple of minutes up to a couple of hours). We therefore compute 'time\_diff\_in\_days' and 'time\_diff\_in\_min' to spot any such discrepancies in the timestamp.
-    \item
-You can find the code in the \code{get\_uptodate\_binance\_data.py} file
-
-\end{itemize}
 
 It is important to note that sometimes the dataset obtained via the extraction in Python can have missing rows of data, i.e. a time series with some missing dates/times depending on the resolution of the data set. As our analyses will be making decisions at every time step in the relevant dataset, this is inconvenient. One way to circumvent this is to \textbf{impute} the time series, and there are software packages available to do this. For example, in section \ref{reddit} on Reddit networks, an R package called \code{imputeTS} is used to do this, with the function \code{na\_kalman} which replaces \code{NA} values in the dataset using nearby values by Kalman Smoothing []. This method is one of the most recommended in the package [],
 
@@ -225,15 +206,7 @@ It is important to note that sometimes the dataset obtained via the extraction i
 \end{figure}
 
 
-Going further...
-
-\begin{itemize}
-    \item 
-Once an analysis is performed on a dedicated dataset (e.g. 1 hour BTC/USDT historical data), the same statistical analysis can be performed over any dataset (e.g. 1 minute ETH/CHF historical data), since the data structure (i.e. the columns, open, high, low, close) is the same. We will do so later on in the project.
-    \item
-We downloaded the data for hundreds of cryptocurrency pairs over various timeframe (1 day, 1 hour, 1 minute, etc) so that we can perform meta-analysis and/or repeat the small single-pair dataset analysis over all other sets
-
-\end{itemize}
+Going further, once an analysis is performed on a dedicated dataset (e.g. 1 hour BTC/USDT historical data), the same statistical analysis can be performed over any dataset (e.g. 1 minute ETH/CHF historical data), since the data structure (i.e. the columns, open, high, low, close) is the same. We shall do so later on in the project.
 
 
 
@@ -347,7 +320,7 @@ We display the charts below.
 
 In finance, the question of extreme values is indubitably an important one. For example: stock market crashes, interest rates ad  insurance pricing based on life expectancy are all fields in which it would be necessary to consider rare events. The analysis of cryptocurrency trajectories is no different, indeed, sudden but large deviations in the trajectory of cryptocurrency prices would certainly be of interest to a trader. 
 
-In light of this, it is not unnatural to ask the corresponding statistical question in the context of extremes. In Figure \ref{fig:hist_logreturn_17_21}, we can see that the distribution of log returns for our data set admits very heavy tails. In this dataset there are many statistically anomalous results which skew the data, but even upon their removal, the data remain strongly skewed, see Figure \ref{fig:distplots_sans_outliers}, the data still exhibit this skewed behaviour. This sparks interest in using extreme value theory to aid our understanding of this behaviour.\\
+In light of this, it is not unnatural to ask the corresponding statistical question in the context of extremes. In Figure ..., we can see that the distribution of log returns for our data set admits very heavy tails. In this dataset there are many statistically anomalous results which skew the data, but even upon their removal, the data remain strongly skewed, see Figure \ref{fig:distplots_sans_outliers}, the data still exhibit this skewed behaviour. This sparks interest in using extreme value theory to aid our understanding of this behaviour.\\
 
 If we observe a trajectory of prices $p_t$, for $t$ an index of time (e.g. prices per minute or hour, etc.), by assuming they come from a random sample, we can aim to fit their scaled extreme, either maximum or minimum, to a distribution of the following type \[
 G(x; \eta, \tau, \xi) = \begin{cases}
@@ -360,9 +333,9 @@ where $\eta, \tau$ and $\xi$ are location, shape and scale parameters respective
 The goal now, therefore, is to fit this model to our data, i.e. by finding the unknown parameters. To this end, we use the $\code{R}$ package $\code{evd}$ which gives useful functions for extremal modelling and makes plotting diagnostics straightforward. 
 
 
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\linewidth]{Extremal Modelling/distplots_sans_outliers.png}
+    \includegraphics[width=\linewidth, scale=0.8]{Extremal Modelling/distplots_sans_outliers.png}
     \caption{Distribution of log returns having eliminated outliers and a QQ plot of the data against a standard normal random variable. Clearly the data is still heavily tailed.}
     \label{fig:distplots_sans_outliers}
 \end{figure}
@@ -370,22 +343,40 @@ The goal now, therefore, is to fit this model to our data, i.e. by finding the u
 
 
 \chapter{Social media's influence on cryptocurrency prices}
-.
-\section{Price versus human behaviour}\label{sec:pricevshumanbehaviour}
-Some introduction, including some references...
+
+Unlike the traditional stock market, cryptocurrencies are traded without many regulations and are accessible to essentially anyone with an internet connection. Therefore it is not surprising that cryptocurrencies are perhaps more sensitive to human behaviour than traditional stocks; including a much more chaotic response to sudden trends and attitudes of these traders. This is indubitably heavily impacted by social media. We aim in this chapter to leverage this observation to generate winning strategies for trading on the market. 
 
 \section{Youtube trends}
 
 Youtube is the most dominant streaming platform worldwide. Many youtube channels are focused solely on cryptocurrencies and they do, sometimes, impact small market cap cryptocurrencies. In general, low market cap cryptocurrencies (below 10M USD) historical prices and data are hard to access and require APIs from numerous cryptocurrency exchanges each. Therefore, we will here confine ourselves to a general trend analysis of popular crypto Youtube channels.\\
 
-First we seek to figure out the search trends of Youtube, using Pytrends, an API for Google Trends, which allows us to retrieve the trending on Google search engines, including Youtube. \\
+First we seek to figure out the search trends of Youtube, using Pytrends, an API for Google Trends, which allows us to retrieve the trending on Google search engines, including Youtube. We get the most trending queries on Youtube for the word 'Cryptocurrency'. From these we see four popular cryptocurrencies channel stand out, namely: Bitboy crypto, Banter crypto, Jrny crypto, and Crypto zombie.\\
 
-We get the most trending queries on Youtube for the word 'Cryptocurrency'. From these we see four popular cryptocurrencies channel stand out, namely: Bitboy crypto, Banter crypto, Jrny crypto, and Crypto zombie.\\
+We then seek to observe the interest over time of each of these channels, as seen in Figure \ref{youtube_channel_crypto_trends}.
 
-We then seek to observe the interest over time of each of these channels, as per figure [ADD THE FIGURE]\\
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{Images/youtube_channel_crypto_trends.png}
+    \caption{Bitboy Crypto charges 60k USD to publish a video on upcoming cryptocurrencies, as per his notoriety.}
+    \label{youtube_channel_crypto_trends}
+\end{figure}
 
-Eventually we seek to observe the interest by region of one particular channel, Bitboy Crypto, a famous youtuber known to be influential in the sphere. We can see its views are mostly in the english-speaking sphere, as to be expected. [ADD FIGURE]
 
+Eventually we seek to observe the interest by region of one particular channel, Bitboy Crypto, a famous youtuber known to be influential in the sphere. We can see his viewership is mostly in the anglosphere, as we shall expect.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{Images/countries_rank_bitboy_crypto_youtube.png}
+    \caption{Bitboy Crypto is unsuprisingly most trending in anglophone countries.}
+    \label{countries_rank_bitboy_crypto_youtube}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{Images/youtube_countries_map_bitboy.png}
+    \caption{Map of the countries most trending for the Youtube channel Bitboy Crypto}
+    \label{youtube_countries_map_bitboy.png}
+\end{figure}
 
 
 \section{Twitter}
@@ -446,7 +437,7 @@ Sentiment analysis is an efficient technique and should be used at a bigger scal
 
 
 \section{Medium}\label{sec:medium}
-Medium is an American online publishing platform developed by Evan Williams and launched in August 2012. The platform gives its members the ability to read and participate in social journalism, having a hybrid collection of amateur and professional people and publications. The site is regularly regarded as a blog host \cite{medium}.
+Medium is an American online publishing platform developed by Evan Williams and launched in August 2012. The platform gives its members the ability to read and participate in social journalism, having a hybrid collection of amateur and professional people and publications. The site is regularly regarded as a blog host \cite{streitfeld2017internet}.
 
 
 
@@ -456,9 +447,14 @@ As we know, many cryptocurrencies are run by companies or individuals. They main
 
 
 \subsection{Data Preprocessing}
-In this section, we explain how we access the data from the medium and the changes of cryptocurrency price. For the medium publications, we use webscraping techniques via some python libraries (\code{BeautifulSoup4, request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. This allows us to access the information via the python.  With the help of library \code{selenium}, we are able to acquire the full information of the source code. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code. By doing so, we can deal with this HTML information much easier with Python. With the \code{find\_all} function, we can find all information that interests us in each article. In our case, we think 
+In this section, we explain how we access the data from the medium and the changes of cryptocurrency price. For the medium publications, we use webscraping techniques via some python libraries (\code{BeautifulSoup4 , request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. This allows us to access the information via the python.  With the help of library \code{selenium}, we are able to acquire the full information of the source code. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code. By doing so, we can deal with this HTML information much easier with Python. With the \code{find\_all} function, we can find all information that interests us in each article. In our case, we think the update time of the article and the title of the article might be helpful for developing strategies. Therefore, using techniques we just introduced, we have a dataframe that contains the update time (Denoted as \code{date}) and title for all of the medium articles (Denoted as \code{title}) from Kyber.
 
-Another part is the access to the price. Binance gives us an API to access to the cryptocurrency price easily. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of a certain cryptocurrency. After that, we merge two dataframes together [WHAT DATAFRAMES?]. The features in the final dataframes are listed in the table (\ref{tab:feature})
+When looking into details, we found that they do not update their medium everyday. We guess updating an article or not is a good signal in developing strategies. So we make a new feature called \code{signal}. It is a binary variable, and the entry is given value 1 if Kyber posted on that day at medium and 0 otherwise.  For the \code{title}, we want to apply sentiment analysis used in Twitter and keyword checking (To see if it contain certain keyword like 'announcement') at first. However, as a big company based in Asia, Kyber published a large amount of articles that not in English. As a result, it is not easy to do the analysis based on these different languages.  
+
+
+
+
+Another work is about the preprocessing of the price changing data. To achieve this goal, we us an API from Binance to access to the cryptocurrency price. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of Kyber and analysize it with Python. We put these details into another dataframe, and merge it with the dataframe with medium information. After choosing relevant information, we have some features that are listed in the table (\ref{tab:feature}). 
 
 As the Kyber begun to trade on Binance since 2020-06-12, the data we select are between 2020-06-12 to 2021-11-16.
 
@@ -490,7 +486,7 @@ If Kyber updates an article at some time $t$, we spend all the money to buy the 
 
 We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. The value of our portfolio created this way is simply the price of the cryptocurrency over time. To perform the analysis, we assume that we have $1000$ dollars at the start of the strategy's implementation. Figure \ref{backtest medium} is the figure of price change of the two strategies and the baseline.
 
-\begin{figure}[h]
+\begin{figure}[!h]
     \centering
     \includegraphics[scale =  0.65]{Images/medium backtesting.png}
     \caption{Back testing of two strategies mentioned above. All the money are in USD. It can be seen clearly that the two strategy outperform the baseline the majority of the time.}
@@ -740,7 +736,7 @@ This analysis is of course limited. For example, we didn't consider the content 
 
 
 
-
+\bibliography{references}
 \end{spacing}
-\bibliography{SCV_Crypto_Report(s)/references}
+
 \end{document}

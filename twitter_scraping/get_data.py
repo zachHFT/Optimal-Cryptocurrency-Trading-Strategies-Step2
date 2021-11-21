@@ -8,8 +8,8 @@ from dateutil import parser
 import api
 
 ### API
-binance_api_key = "XrodrdnUgVG8i7xYwgFTqcSF3scg45Tgdg23jT3Eaw9xBet9OVHBZZIBfovkI3SS"
-binance_api_secret = "i26XtKRC6oKwDZJzfB947SQhhjub7jfUrwuutNjFAoDs5iVCscrgUd9sq5pJ2dYz"
+binance_api_key = ""
+binance_api_secret = ""
 
 ### CONSTANTS
 binsizes = {"1m": 1, "5m": 5, "1h": 60, "1d": 1440}

@@ -38,7 +38,6 @@
 \usepackage{mwe}
 \usepackage{caption}
 \usepackage{float}
-\usepackage[numbers]{natbib}
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{subcaption}
@@ -96,7 +95,7 @@ bodyfont=\fontfamily{cmss}\selectfont,
   postheadspace=1em,
   qed=
 ]{mystyle5}
-\declaretheorem[style=mystyle5,numbered=yes]{strategy}
+\declaretheorem[style=mystyle5,numbered=no]{strategy}
 
 \declaretheoremstyle[
   spaceabove=6pt, spacebelow=6pt,
@@ -133,6 +132,7 @@ bodyfont=\fontfamily{cmss}\selectfont\itshape,
 
 \definecolor{fcolor}{RGB}{0,255,255}
 
+\usepackage[numbers]{natbib}
 
 \begin{document}
 \begin{spacing}{1}
@@ -149,18 +149,16 @@ bodyfont=\fontfamily{cmss}\selectfont\itshape,
 Let's begin by presenting a general overview, during which we'll go through the key-terms needed to understand this project.
 
 When faced with a given cryptocurrency, what we see on a price chart is the value of a single \textbf{token}.
-The value of a token is equal to the market cap (total value of the network) of a currency divided by the total circulating supply (number of tokens).
+The value of a token is equal to the market cap (total value of the network noted MC) of a currency divided by the total circulating supply (number of tokens noted CS).
 Bitcoin has a circulating supply of 19 million tokens but a total supply of 21 million tokens. The difference between the circulating supply and the total supply is the amount still available to be mined, and indicates future inflation. 
-\[
-Token_{BTC}=\frac{MC_{current}}{CS_{current}}
-\]
+$$\text{Token}_\text{BTC}=\frac{\text{MC}}{\text{CS}}$$
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale = 0.7]{TestPlots/BTC_overview.png}
     \caption{}
     \label{}
 \end{figure}
-\\
+
 Just by looking at this chart, one can realise how volatile bitcoin has been and this particularity is shared by many other cryptocurrencies.\\
 Bitcoin went from $10K\$$ in September 2020 to over $60K\$$ in April 2021, but also lost half of it's value from April to July 2021.
 One can say without doubt that the prices are on a roller coaster, everyone wants to experience the upward trends however the downfalls are extremely scary.\\
@@ -188,7 +186,7 @@ If you do not want to get your hands dirty (which is understandable) navigating 
 
 
 
-\section{The data}
+\section{Data}
 \subsection{Data extraction and processing}
 .
 
@@ -381,88 +379,106 @@ The goal now, therefore, is to fit this model to our data, i.e. by finding the u
 \section{Price versus human behaviour}\label{sec:pricevshumanbehaviour}
 Some introduction, including some references...
 
+\section{Youtube trends}
+
+Youtube is the most dominant streaming platform worldwide. Many youtube channels are focused solely on cryptocurrencies and they do, sometimes, impact small market cap cryptocurrencies. In general, low market cap cryptocurrencies (below 10M USD) historical prices and data are hard to access and require APIs from numerous cryptocurrency exchanges each. Therefore, we will here confine ourselves to a general trend analysis of popular crypto Youtube channels.\\
+
+First we seek to figure out the search trends of Youtube, using Pytrends, an API for Google Trends, which allows us to retrieve the trending on Google search engines, including Youtube. \\
+
+We get the most trending queries on Youtube for the word 'Cryptocurrency'. From these we see four popular cryptocurrencies channel stand out, namely: Bitboy crypto, Banter crypto, Jrny crypto, and Crypto zombie.\\
+
+We then seek to observe the interest over time of each of these channels, as per figure [ADD THE FIGURE]\\
+
+Eventually we seek to observe the interest by region of one particular channel, Bitboy Crypto, a famous youtuber known to be influential in the sphere. We can see its views are mostly in the english-speaking sphere, as to be expected. [ADD FIGURE]
 
 
 
 \section{Twitter}
 Twitter is an American microblogging and social networking service on which users post and interact with messages known as "tweets". Users can post, like, and share (or retweet) tweets. Millions of people from a wide variety of positions and backgrounds react and share their opinions on the platform. This includes people of great significance  and influence within society, for example the former president of the US, Donald Trump, used Twitter extensively to communicate with the American citizens during his mandate.
 
-One finds that some individuals are very aware of the impact they have on social media and often use their influence unreservedly. Elon Musk, avery well-known serial entrepreneur and founder of Tesla, who is also the richest man on the planet, has been heavily criticized for his influence on a few cryptocurrency stocks [REFERENCE]. He has embraced his role and was proclamed the Doge Father in reference to the cryptocurrency Dogecoin. He has been creating immense moves (both up and down) of price charts with his tweets. [REFERENCE].
+One finds that some individuals are very aware of the impact they have on social media and often use their influence unreservedly. Elon Musk, a very well-known serial entrepreneur and founder of Tesla, who is also the richest man on the planet, has been heavily criticized for his influence on a few cryptocurrency stocks. He has embraced his role and was proclamed the Doge Father by the crypto community in reference to the cryptocurrency Dogecoin. He has been creating immense moves (both up and down) of price charts with his tweets.
 
 \subsection{Twitter strategy}
 Elon Musk's tweets unquestionably have great power. To create great profit inducing trading strategies it serves to try and quantify the power influencers like Elon Musk possess. In this section we will explore a simple trading strategy applied to BTCUSDT and DOGEUSDT currency pairs: \begin{strategy}[Elon Musk]
-Buy [what quantity?] whenever Elon musk tweets about a given cryptocurrency and hold this position for 24 hours. Once the 24 hour period has ended, sell the stock.
+Buy $1000\text{\$}$ whenever Elon musk tweets about a given cryptocurrency and hold this position for 24 hours. Once the 24 hour period has ended, sell the stock.
 \end{strategy}\label{strat:musk} 
-We will visualise the effective of this strategy through the \textbf{profit and loss} (PnL) generated by this strategy. If our portfolio (number and type of quantities traded) has value $V_t$ for $t$ and index of time, then the sequence $(V_t)_{t=0}^T$ for some end-time $T$ is called the profit and loss of the portfolio through time.
+We will visualise the effectiveness of this strategy through the \textbf{profit and loss} (PnL) generated by this strategy. If our portfolio (number and type of quantities traded) has value $V_t$ for $t$ an index of time, then the sequence $(V_t)_{t=0}^T$ for some end-time $T$ is called the profit and loss of the portfolio through time.
 
-Users interact with Twitter through browser or mobile front-end software, however in order to collect their data from that platform computationally one has to do it via its [WHOSE?] APIs [WHICH BE WHAT? HAS IT BEEN EXPLAINED, IF SO, WHERE? IF NOT, EXPLAIN IT?].
-We have used the python library \code{snscrape.modules.twitter} [REFERENCE] to collect the data we needed. We then updated the buy signal accordingly. We have scraped [HOW?] Elon Musk's tweets in search of occurrences of the character strings 'BTC', 'bitcoin', 'dogecoin' or 'DOGE' to create the datasets dealing with bitcoin and dogecoin respectively. Here are the results. \\
+Users interact with Twitter through browser or mobile front-end software, however in order to collect their data from that platform computationally one has to do it via Twitter's APIs in a similar way to what we did to get the data from Binance.
+We have used the python library \code{snscrape.modules.twitter} to collect the data we needed. We then updated the buy signal accordingly. We have scraped Elon Musk's tweets in search of occurrences of the character strings 'BTC', 'bitcoin', 'dogecoin' or 'DOGE' to create the datasets dealing with bitcoin and dogecoin respectively. To do that we have used the function \code{sntwitter.TwitterSearchScraper}. Here are the results. \\
+
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale = 0.5]{TestPlots/plot-BTC-pnl.png}
-    \caption{What a lovely figure}
+    \caption{Although This strategy leads to a 20\% increase of the value of our portfolio for Bitcoin overall. We notice the presence of both a big up-trends and massive drops.}
     \label{}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale = 0.5]{TestPlots/plot-DOGE-pnl.png}
-    \caption{Look what I did mom!}
+    \caption{The strategy looks better for Doge and we can see a 100\% increase of the initial investment.}
     \label{}
 \end{figure}
 
-This simple strategy leads to a 20\% increase of the value of our portfolio for Bitcoin and almost a 100\% increase for dogecoin. 
-From these figures we draw two conclusions. Firstly, that there is a noticeable effect on the price of a currency from a tweet, however, a tweet can negatively impact the price and suggests that one should pay attention to what is said in a tweet.\\
-For instance the huge up-trend after the $10^{th}$ entry point corresponds to a tweet in which he said ``You can now buy a Tesla with Bitcoin" [REFERENCE]. We can infer that, this short sentence gave people a lot of hope and showed the interest of a massive company towards the cryptocurrency. The uptrend continued but then he talked about the risks and limitations of Bitcoin and said ``Bitcoin is actually highly centralized, with supermajority controlled by handful of big mining (aka hashing) companies. A single coal mine in Xinjiang flooded, almost killing miners, and Bitcoin hash rate dropped 35\%. Sound “decentralized” to you?" [REFERENCE]. From this we can infer that bitcoin traders ... and caused a massive drop of the price.\\
-Knowing that a single person had so much power and could influence the prices easily in either way scared investors and Elon Musk received a lot of criticism and was accused of purposely affecting the markets to push his company's agenda.[REFERENCE] \\
+ Tweets have a noticeable effect on the price of a currency, however, a tweet can negatively impact the price and suggests that one should pay attention to what is said in a tweet.\\
+For instance the huge up-trend after the $10^{th}$ entry point corresponds to a tweet in which he said "You can now buy a Tesla with Bitcoin" [24/03/2021]. We can infer that, this short sentence gave people a lot of hope and showed the interest of a massive company towards the cryptocurrency. The uptrend continued but then he talked about the risks and limitations of Bitcoin and said ``Bitcoin is actually highly centralized, with supermajority controlled by handful of big mining (aka hashing) companies. A single coal mine in Xinjiang flooded, almost killing miners, and Bitcoin hash rate dropped 35\%. Sound “decentralized” to you?" [16/05/2021]. From this we can infer that bitcoin traders lost confidence in the cryptocurrency, to use the crypto slang it spread FUD (fear uncertainty and doubt), and that caused a massive drop of the price.\\
+Knowing that a single person had so much power and could influence the prices easily in either way scared investors and Elon Musk received a lot of criticism and was accused of purposely affecting the markets to push his company's agenda. \\
 Following this logic, it seemed natural to try to get a sense of how optimistic a tweet was before deciding whether or not to buy.\\
-For that very reason we have chosen to use the python library \code{textblob} [REFERENCE] for processing textual data and proceed to the sentiment analysis of the tweets. The function \code{sentiment.polarity} gave a score in $ [-1,1]$ indicating how positive a text was [SUMMARISE HOW IT DOES THIS]. [DO NOT START A SENTENCE WITH MATH] \[\code{sentiment.polarity}(``\text{good}")=0.7\;\;\;\:\:\code{sentiment.polarity}(``\text{bad}")=-0.7.\] And decided to buy only for a score greater or equal to $0.2$ [THERE IS NO CONTEXT IN HOW THIS SENTENCE HAS STARTED, WHAT ARE YOU TALKING ABOUT? DO YOU HAVE A NEW STRATEGY?]. Note that setting the threshold for sentiment at $0$ gave similar results. THESE RESULTS ARE VISUALISED IN FIGURES ...
+For that very reason we have chosen to use the python library \code{textblob} [REFERENCE] for processing textual data and proceed to the sentiment analysis of the tweets. The function \code{sentiment.polarity} gave a score in $ [-1,1]$ indicating how positive a text is using averaging methods. For instance : \[\code{sentiment.polarity}(``\text{good}")=0.7\;\;\;\:\:\code{sentiment.polarity}(``\text{bad}")=-0.7.\]
+\begin{strategy}[Adding Sentiment]
+We have added to the previous strategy the condition that the tweet had to have a sentiment score greater or equal to $0.2$ for us to buy.\end{strategy}\label{strat:sent} 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale = 0.5]{TestPlots/plot_sentiment_btc.png}
-    \caption{Tu veux du fromage, Emmanuel?}
+    \caption{The sentiment condition has missed on great upward motions as well as drops, the portfolio value still raised but only by 6\%. Which is not significant at all, especially for crypto stocks.}
     \label{}
 \end{figure}
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale = 0.5]{TestPlots/Doge_sentiment_plot.png}
-    \caption{Voilà, c'est évident, non? }
+    \caption{The strategy is clearly not efficient for doge. We loose on our position most of the time. }
     \label{}
 \end{figure}
 
-It turns out that this method is less efficient than buying blindly [CAN WE SEE SOME NUMBERS MAYBE?]. This  reduced the number of entry points by more than a half but missed out on good opportunities while doing so. That is probably because neutral sentences containing crucial information can be misinterpreted by the sentiment function. Indeed the sentence ``you can buy tesla with bitcoin" has a score of $0$, While the sentence ``bitcoin consumes too much energy" has a score of $0.2$.\\
+This  reduced the number of entry points by more than a half but missed out on great opportunities while doing so. That is probably because neutral sentences containing crucial information can be misinterpreted by the sentiment function. Indeed the sentence "you can buy tesla with bitcoin" has a score of $0$, While the sentence "bitcoin consumes too much energy" has a score of $0.2$.\\
 Of course this is also because our person of interest, Elon Musk, is not trying to energize the public but just making an announcement.\\
-He had a different approach with dogecoin and made a lot of jokes when talking about it [REFERENCE, OR EXPLAIN HOW YOU KNOW THIS]. But again trying to gauge the sentiment of his tweets wasn't the best approach, and resulted in a loss of capital.\\
-Sentiment analysis is an efficient technique and should be used at a bigger scale when analyzing an important amount of tweets coming from different people.
+In conclusion trying to gauge the sentiment of his tweets wasn't the best approach, and resulted in a loss of capital.\\
+Sentiment analysis is an efficient technique and should be used at a bigger scale when analyzing an important amount of tweets coming from different people, using it on a single person could lead to errors due to the personality of the source.
 
 
 
 
 
 \section{Medium}\label{sec:medium}
-Medium is an American online publishing platform developed by Evan Williams and launched in August 2012. The platform gives its members the ability to read and participate in social journalism, having a hybrid collection of amateur and professional people and publications. The site is regularly regarded as a blog host [REFERENCE].
+Medium is an American online publishing platform developed by Evan Williams and launched in August 2012. The platform gives its members the ability to read and participate in social journalism, having a hybrid collection of amateur and professional people and publications. The site is regularly regarded as a blog host \cite{medium}.
 
-Many cryptocurrencies are run by companies. These companies maintain the currency they create, and they use social media to promote their products. Medium, as a famous and influential social media platform, is often used to publish news of the company. In this section we aim to discover if there is a correlation between the time the company publishes article and the price of their cryptocurrency. The currency we will analyze is called Kyber (KNC). 
+
+
+
+As we know, many cryptocurrencies are run by companies or individuals. They maintain the currency they create, and they use social media to promote their cryptocurrency. Medium, as a famous and influential social media platform, is often used to promote the cryptocurrency they create. One idea we came about is that there may have some relationships between the medium and price changing of their cryptocurrency. In this section, we aim to develop strategies using the information from their medium blog. As an example, we focus on a certain cryptocurrency called Kyber (KNC). Though there are differences between each cryptocurrency, the analysis and the strategies can be applied to other cryptocurrencies as well. 
+
+
 
 \subsection{Data Preprocessing}
-For the medium publication, we use webscraping techniques via some python libraries (\code{BeautifulSoup4, request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. Using \code{selenium}, we scroll the page to the very bottom to obtain the full context [WHAT IS THIS?] of the website. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code [WHY?]. With the \code{find\_all} function, we find all content that interests us [AND WHAT INTERESTS YOU?]. In this project, we choose \code{title} and \code{date} as our features. [WHICH CAME FROM WHERE?]
+In this section, we explain how we access the data from the medium and the changes of cryptocurrency price. For the medium publications, we use webscraping techniques via some python libraries (\code{BeautifulSoup4, request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. This allows us to access the information via the python.  With the help of library \code{selenium}, we are able to acquire the full information of this website. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code [WHY?]. With the \code{find\_all} function, we find all content that interests us [AND WHAT INTERESTS YOU?]. In this project, we choose \code{title} and \code{date} as our features. [WHICH CAME FROM WHERE?]
 
 Another part is the access to the price. Binance gives us an API to access to the cryptocurrency price easily. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of a certain cryptocurrency. After that, we merge two dataframes together [WHAT DATAFRAMES?]. The features in the final dataframes are listed in the table (\ref{tab:feature})
 
 As the Kyber begun to trade on Binance since 2020-06-12, the data we select are between 2020-06-12 to 2021-11-16.
 
 
-\begin{table}[h]
+\begin{table}[!htp]
     \centering
-    \begin{tabular}{cl} 
+    \begin{tabular}{|l|p{0.8\linewidth}|}
         \hline
         \code{date}  & Date of trading \\
         \code{high} & The highest price of the day\\
        \code{low}& The lowest price of the day\\
          \code{open} & Binary indicator vector of Kyber article posts indexed by day. An entry is given the value $1$ if Kyber posted on that day and $0$ otherwise. \\
-        \code{volume} & (The money traded at that day, v).\\ \hline
+        \code{volume} & The amount of money traded at that day.\\ \hline
     \end{tabular}\vspace{2mm}
-    \caption{Summary of the notation [WHAT NOTATION?]. ADD AN INTERESTING COMMENT PLEASE.}
+    \caption{Summary of the notation [WHAT NOTATION? The first column is...]. ADD AN INTERESTING COMMENT PLEASE.}
     \label{tab:feature}
 \end{table}
 
@@ -477,11 +493,11 @@ If Kyber updates an article on date $t$, we spend all the money to buy the crypt
 If Kyber updates an article at some time $t$, we spend all the money to buy the cryptocurrency at the open price on date $t$ and sell at the close price on date $t$.
 \end{strategy}\label{strat:Kyber2} 
 
-We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. The value of our portfolio created this way is simply the price of the cryptocurrency over time. To perform the analysis, we assume that we have $1000$ dollars at the start of the strategy's implementation. Figure (\ref{backtest medium}) is the figure of price change of the two stategies and the baseline.
+We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. The value of our portfolio created this way is simply the price of the cryptocurrency over time. To perform the analysis, we assume that we have $1000$ dollars at the start of the strategy's implementation. Figure \ref{backtest medium} is the figure of price change of the two strategies and the baseline.
 
-\begin{figure}[!htbp]
+\begin{figure}[h]
     \centering
-    \includegraphics[scale =  0.8]{Images/medium backtesting.png}
+    \includegraphics[scale =  0.65]{Images/medium backtesting.png}
     \caption{Back testing of two strategies mentioned above. All the money are in USD. It can be seen clearly that the two strategy outperform the baseline the majority of the time.}
     \label{backtest medium}
 \end{figure}
@@ -716,7 +732,14 @@ This analysis is of course limited. For example, we didn't consider the content 
 
 
 
+%\begin{thebibliography}{}
+%\bibitem{medium}
+ %Streitfeld, David (May 20, 2017). "'The Internet Is Broken': @ev Is Trying to Salvage It". The New York Times. ISSN 0362-4331. Archived from the original on May 21, 2017. Retrieved 2017-05-22.
+%\bibitem{}
 
+
+
+%\end{thebibliography}
 
 
 
@@ -724,9 +747,5 @@ This analysis is of course limited. For example, we didn't consider the content 
 
 
 \end{spacing}
-
-{\small
-\bibliography{refs}
-\bibliographystyle{abbrvnat}
-}
+\bibliography{SCV_Crypto_Report(s)/references}
 \end{document}

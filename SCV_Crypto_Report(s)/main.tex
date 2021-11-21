@@ -156,10 +156,10 @@ $$\text{Token}_\text{BTC}=\frac{\text{MC}}{\text{CS}}$$
     \centering
     \includegraphics[scale = 0.7]{TestPlots/BTC_overview.png}
     \caption{The price chart of Bitcoin from 2017 to 2021}
-    \label{}
+    \label{BTC overall}
 \end{figure}
 
-Just by looking at the chart in \figureautorefname{ 1.1}, one can realise how volatile bitcoin has been and this particularity is shared by many other cryptocurrencies.\\
+Just by looking at the chart in Figure \ref{BTC overall}, one can realise how volatile bitcoin has been and this particularity is shared by many other cryptocurrencies.\\
 Bitcoin went from $10\text{K}\$$ in September 2020 to over $60\text{K}\$$ in April 2021, but also lost half of it's value from April to July 2021.
 One can say without doubt that the prices are on a roller coaster, everyone wants to experience the upward trends however the downfalls are extremely scary.\\
 
@@ -264,9 +264,9 @@ Figure \ref{7day rolling volume} is about 7 days rolling average of the volume. 
 \label{fig:test}
 \end{figure}
 
-\subsection{Mean and Median hourly BTC/USDT log-return by day, by week, and by month}
+\subsection{Mean hourly BTC/USDT log-return by day, by week, and by month}
 
-In the following we show historical hourly log-return based on the trading day, the trading week, or the trading month.
+In the following we show historical average hourly log-return based on the trading day, the trading week, or the trading month.
 \\ \\
 We can notice that historically, Thursday is a bad trading day, and if historical trends are any indication of future trends, we may want to consider avoiding trading on this particular day.
 \\ \\
@@ -282,13 +282,6 @@ We display the charts below.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[scale = 0.5]{Images/Median hourly log-return for BTCUSDT per day.png}
-    \caption{Median hourly log-return for BTCUSDT per day}
-    \label{Median hourly log-return for BTCUSDT per day}
-\end{figure}
-
-\begin{figure}[!htbp]
-    \centering
     \includegraphics[scale = 0.5]{Images/Average hourly log-return for BTCUSDT per week number.png}
     \caption{Average hourly log-return for BTCUSDT per week number}
     \label{Average hourly log-return for BTCUSDT per week number}
@@ -296,23 +289,9 @@ We display the charts below.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[scale = 0.5]{Images/Median hourly log-return for BTCUSDT per week number.png}
-    \caption{Median hourly log-return for BTCUSDT per week number}
-    \label{Median hourly log-return for BTCUSDT per week number}
-\end{figure}
-
-\begin{figure}[!htbp]
-    \centering
     \includegraphics[scale = 0.5]{Images/Average hourly log-return for BTCUSDT per month.png}
     \caption{Average hourly log-return for BTCUSDT per month}
     \label{Average hourly log-return for BTCUSDT per month}
-\end{figure}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[scale = 0.5]{Images/Median hourly log-return for BTCUSDT per month.png}
-    \caption{Median hourly log-return for BTCUSDT per month}
-    \label{Median hourly log-return for BTCUSDT per month}
 \end{figure}
 
 
@@ -328,7 +307,7 @@ We display the charts below.
 
 In finance, the question of extreme values is indubitably an important one. For example: stock market crashes, interest rates ad  insurance pricing based on life expectancy are all fields in which it would be necessary to consider rare events. The analysis of cryptocurrency trajectories is no different, indeed, sudden but large deviations in the trajectory of cryptocurrency prices would certainly be of interest to a trader. 
 
-In light of this, it is not unnatural to ask the corresponding statistical question in the context of extremes. In Figure ..., we can see that the distribution of log returns for our data set admits very heavy tails. In this dataset there are many statistically anomalous results which skew the data, but even upon their removal, the data remain strongly skewed, see Figure \ref{fig:distplots_sans_outliers}, the data still exhibit this skewed behaviour. This sparks interest in using extreme value theory to aid our understanding of this behaviour.\\
+In light of this, it is not unnatural to ask the corresponding statistical question in the context of extremes. In Figure \ref{fig:distplots_sans_outliers}, we can see that the distribution of log returns for our data set admits very heavy tails. In this dataset there are many statistically anomalous results which skew the data, but even upon their removal, the data remain strongly skewed, see Figure \ref{fig:distplots_sans_outliers}, the data still exhibit this skewed behaviour. This sparks interest in using extreme value theory to aid our understanding of this behaviour.\\
 
 If we observe a trajectory of prices $p_t$, for $t$ an index of time (e.g. prices per minute or hour, etc.), by assuming they come from a random sample, we can aim to fit their scaled extreme, either maximum or minimum, to a distribution of the following type \[
 G(x; \eta, \tau, \xi) = \begin{cases}
@@ -410,7 +389,8 @@ We have used the python library \code{snscrape.modules.twitter} to collect the d
 \end{figure}
 
  Tweets have a noticeable effect on the price of a currency, however, a tweet can negatively impact the price and suggests that one should pay attention to what is said in a tweet.\\
-For instance the huge up-trend after the $10^{th}$ entry point corresponds to a tweet in which he said "You can now buy a Tesla with Bitcoin" [24/03/2021]. We can infer that, this short sentence gave people a lot of hope and showed the interest of a massive company towards the cryptocurrency. The uptrend continued but then he talked about the risks and limitations of Bitcoin and said ``Bitcoin is actually highly centralized, with supermajority controlled by handful of big mining (aka hashing) companies. A single coal mine in Xinjiang flooded, almost killing miners, and Bitcoin hash rate dropped 35\%. Sound “decentralized” to you?" \cite{Elon}[16/05/2021]. From this we can infer that bitcoin traders lost confidence in the cryptocurrency, to use the crypto slang it spread FUD (fear uncertainty and doubt), and that caused a massive drop of the price.\\
+For instance the huge up-trend after the $10^{th}$ entry point corresponds to a tweet in which he said "You can now buy a Tesla with Bitcoin" [24/03/2021]. We can infer that, this short sentence gave people a lot of hope and showed the interest of a massive company towards the cryptocurrency. The uptrend continued but then he talked about the risks and limitations of Bitcoin and said ``Bitcoin is actually highly centralized, with supermajority controlled by handful of big mining (aka hashing) companies. A single coal mine in Xinjiang flooded, almost killing miners, and Bitcoin hash rate dropped 35\%. Sound “decentralized” to you?" %\cite{Elon}[16/05/2021]. 
+From this we can infer that bitcoin traders lost confidence in the cryptocurrency, to use the crypto slang it spread FUD (fear uncertainty and doubt), and that caused a massive drop of the price.\\
 Knowing that a single person had so much power and could influence the prices easily in either way scared investors and Elon Musk received a lot of criticism and was accused of purposely affecting the markets to push his company's agenda. This criticism has led to a noticed dampening effect of his tweets \cite{ElonCriticism} \\
 Following this logic, it seemed natural to try to get a sense of how optimistic a tweet was before deciding whether or not to buy.\\
 For that very reason we have chosen to use the python library \code{textblob} \cite{loria2018textblob} for processing textual data and proceed to the sentiment analysis of the tweets. The function \code{sentiment.polarity} gave a score in $ [-1,1]$ indicating how positive a text is using averaging methods. For instance : \[\code{sentiment.polarity}(``\text{good}")=0.7\;\;\;\:\:\code{sentiment.polarity}(``\text{bad}")=-0.7.\]
@@ -429,7 +409,8 @@ We have added to the previous strategy the condition that the tweet had to have 
     \label{}
 \end{figure}
 
-This  reduced the number of entry points by more than a half but missed out on great opportunities while doing so. That is probably because neutral sentences containing crucial information can be misinterpreted by the sentiment function. Indeed the sentence "you can buy tesla with bitcoin" has a score of $0$, While the sentence "bitcoin consumes too much energy" has a score of $0.2$.\\
+This  reduced the number of entry points by more than a half but missed out on great opportunities while doing so. That is probably because neutral sentences containing crucial information can be misinterpreted by the sentiment function. Indeed the sentence "you can buy tesla with bitcoin" has a score of $0$, While the sentence "bitcoin consumes too much energy" has a score of $0.2$.
+
 Of course this is also because our person of interest, Elon Musk, is not trying to energize the public but just making an announcement. In conclusion trying to gauge the sentiment of his tweets wasn't the best approach, and resulted in a loss of capital.
 
 Sentiment analysis is an efficient technique and should be used at a bigger scale when analyzing an important amount of tweets coming from different people, using it on a single person could lead to errors due to the personality of the source.
@@ -449,14 +430,14 @@ As we know, many cryptocurrencies are run by companies or individuals. They main
 
 
 \subsection{Data Preprocessing}
-In this section, we explain how we access the data from the medium and the changes of cryptocurrency price. For the medium publications, we use webscraping techniques via some python libraries (\code{BeautifulSoup4 , request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. This allows us to access the information via the python.  With the help of library \code{selenium}, we are able to acquire the full information of the source code. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code. By doing so, we can deal with this HTML information much easier with Python. With the \code{find\_all} function, we can find all information that interests us in each article. In our case, we think the update time of the article and the title of the article might be helpful for developing strategies. Therefore, using techniques we just introduced, we have a dataframe that contains the update time (Denoted as \code{date}) and title for all of the medium articles (Denoted as \code{title}) from Kyber.
+In this section, we explain how we access the data from the medium and the changes of cryptocurrency price. For the medium publications, we use webscraping techniques via some python libraries (\code{BeautifulSoup4 , request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. This allows us to access the information via the python.  With the help of library \code{selenium}, we are able to acquire the full information of the source code. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code. By doing so, we can deal with this HTML information much easier with Python. With the \code{find\_all} function, we can find all information that interests us in each article. In our case, we think the update time of the article and the title of the article might be helpful for developing strategies. Therefore, using techniques we just introduced, we have a dataframe that contains the update time (denoted as \code{date}) and title for all of the medium articles (denoted as \code{title}) from Kyber.
 
 When looking into details, we found that they do not update their medium everyday. We guess updating an article or not is a good signal in developing strategies. So we make a new feature called \code{signal}. It is a binary variable, and the entry is given value 1 if Kyber posted on that day at medium and 0 otherwise.  For the \code{title}, we want to apply sentiment analysis used in Twitter and keyword checking (To see if it contain certain keyword like 'announcement') at first. However, as a big company based in Asia, Kyber published a large amount of articles that not in English. As a result, it is not easy to do the analysis based on these different languages.  
 
 
 
 
-Another work is about the preprocessing of the price changing data. To achieve this goal, we us an API from Binance to access to the cryptocurrency price. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of Kyber and analysize it with Python. We put these details into another dataframe, and merge it with the dataframe with medium information. After choosing relevant information, we have some features that are listed in the table (\ref{tab:feature}). 
+Another work is about the preprocessing of the price changing data. To achieve this goal, we us an API from Binance to access to the cryptocurrency price. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of Kyber and analysize it with Python. We put these details into another dataframe, and merge it with the dataframe with medium information. After choosing relevant information, we have some features that are listed in the Table \ref{tab:feature}. 
 
 As the Kyber begun to trade on Binance since 2020-06-12, the data we select are between 2020-06-12 to 2021-11-16.
 
@@ -480,9 +461,9 @@ As the Kyber begun to trade on Binance since 2020-06-12, the data we select are 
 
 
 \subsection{Statistical Analysis}
-We will investigate the strength of correlation between \code{opcl} and other features. If we find some strong correlations between \code{opcl} and some features, we can use that fact to inform a great trading price within a day , we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the [WHAT]. [HOW DID YOU ASSESS THE CORRELATION?] We found the correlation between \code{signal} and \code{opcl} to be $0.05$ (any statistical tests available?). Unfortunately, there is no strong correlation between them [HOW HAVE YOU CONCLUDED THIS?]. [WITH THIS INFORMATION IN MIND... WE NOW]
+We will investigate the strength of correlation between \code{opcl} and other features. If we find some strong correlations between \code{opcl} and some features, we can use that fact to inform a great trading price within a day. In order to do that, we use python to calculate the Pearson's correlation between them.   Unfortunately, we can't find any features that strong correlate with the \code{opcl}. As
 
-\subsection{}
+\subsection{Medium Strategy }
 
 
 
@@ -545,11 +526,11 @@ We will access a set of users who have posted in the r/CryptoCurrency subreddit 
 
 Our goal for the moment is exploratory and we will investigate several properties of the users and related subreddits of r/CryptoCurrency. In this context, what do we mean by related? Here, we will also identify the subreddits in which the top authors in r/CryptoCurrency are also active, see Figure \ref{fig:other_subs_contributions} for a vusualisation. It is no surprise that subreddits like r/Bitcoin and r/ethtrader appear, while we also see that r/memes is popular as it is a general, fun forum.
 
-To analyse this structure more deeply, we create a network, $G$, connecting these authors and subreddits. The network is formed in the following way: if redditor $r$ posts in subreddit $s$, then we connect $r$ and $s$ by a \textbf{link}, which we may denote $r \sim s$ (read as: $r$ is linked to $s$). We say that the \textbf{nodes} of this network are the elements connected via a link. One should notice that a network constructed in this way has a special property. It is possible to separate the set of nodes $V$ of $G$ into two disjoint groups or \textbf{categories} $R$ and $S$ where there exist no links between pairs of nodes where each node belongs to the same set: such networks are called \textbf{bipartite}.
+To analyse this structure more deeply, we create a network, $G$, connecting these authors and subreddits. To do this, we used the extensive \code{networkX} library in Python, which has extensive documentation describing all its capabilities. The network is formed in the following way: if redditor $r$ posts in subreddit $s$, then we connect $r$ and $s$ by a \textbf{link}, which we may denote $r \sim s$ (read as: $r$ is linked to $s$). We say that the \textbf{nodes} of this network are the elements connected via a link. One should notice that a network constructed in this way has a special property. It is possible to separate the set of nodes $V$ of $G$ into two disjoint groups or \textbf{categories} $R$ and $S$ where there exist no links between pairs of nodes where each node belongs to the same set: such networks are called \textbf{bipartite}.
 
 The substructures of networks of this type are often of interest to analysts; indeed, bipartite networks admit two \textit{projections} which reveal the underlying structure. For example, we can form a network between subreddits, $s, s' \in S$, where $s \sim s'$ whenever there is an $r$ such that $r \sim s$ and $r\sim s'$. In words: if a redditor has posted in both subreddits $s$ and $s'$, then we can create an edge between them, producing the graphs in Figure \ref{fig:bipartite}.
 
-What can we learn from the projections? Later in this section, our goal will be to find nodes which are considered to be important or influential within a network. As a result we need a method to assign some degree of importance or \textbf{centrality} to the nodes (or links). Some measures of centrality are detailed in Table \ref{table:centralityMeasures}. To understand the need for this variety in measures imagine the following scenario: you are studying transatlantic internet traffic and its router network. The idea here is that even while the most naive measure of importance of a node, its \textbf{degree} (number of links the node has), might not be very large, it may have important positioning in the network. : routers connecting the US and the UK will be very important to this network and will separate two \textbf{communities}, even if in those communities their degree is not as high as elsewhere. It is these nodes one might wish to identify (using betweenness centrality, for example) - they are important relative to the context of the network.
+What can we learn from the projections? Later in this section, our goal will be to find nodes which are considered to be important or influential within a network. As a result we need a method to assign some degree of importance or \textbf{centrality} to the nodes (or links). Some measures of centrality are detailed in Table \ref{table:centralityMeasures}. To understand the need for this variety in measures imagine the following scenario: you are studying transatlantic internet traffic and its router network. The idea here is that even while the most naive measure of importance of a node, its \textbf{degree} (number of links the node has), might not be very large, it may have important positioning in the network. Routers connecting the US and the UK will be very important to this network and will separate two \textbf{communities}, even if in those communities their degree is not as high as elsewhere. It is these nodes one might wish to identify (using betweenness centrality, for example) - they are important relative to the context of the network.
 
 
 \begin{table}[h]
@@ -602,7 +583,7 @@ We now use the ideas presented in section \ref{sec:redditSN} to identify the mos
 
 
 
-To study and visualise the graph, we explored the R packages \code{igraph}, \code{ggraph}, \code{visNetwork}, \code{graphlayouts} [...] extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} (IVI) \cite{IVIpatterns}, which uses various statistical tests to compare various centrality measures for a graph to determine the most influential nodes, see page $4$ of \cite{IVIpatterns}. Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us, find a vignette describing its function in \cite{IVIvignette}. This function will calculate the various centrality measures for us, compute the IVI for each node, which is scaled to lie between $0$ and $100$. To explore our results, please visit our Rshiny application \textbf{\url{https://kcvis.shinyapps.io/network_analysis/}} to play around interactively with the network formed and discover properties of its nodes. 
+To study and visualise the graph, we explored the R packages \code{igraph} (the cousin of \code{networkX} in R), \code{ggraph}, \code{visNetwork}, \code{graphlayouts} extensively. Moreover, a very recent development in the field of network science has constructed the centrality measure, \textbf{Integrated Value of Influence} (IVI), which uses various statistical tests to compare various centrality measures for a graph to determine the most influential nodes. Fortunately, the authors of that paper have created a comprehensive R package called \code{influential} whose function \code{ivi} does the heavy lifting for us\footnote{Linked references to be added later}. This function will calculate the various centrality measures for us, compute the IVI for each node, which is scaled to lie between $0$ and $100$. To explore our results, please visit our Rshiny application \textbf{\url{https://kcvis.shinyapps.io/network_analysis/}} to play around interactively with the network formed and discover properties of its nodes. 
 
 
 

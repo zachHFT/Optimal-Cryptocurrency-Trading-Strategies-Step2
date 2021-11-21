@@ -37,18 +37,12 @@
 \usepackage{cancel}
 \usepackage{mwe}
 \usepackage{caption}
-
 \usepackage{float}
-
-\usepackage[numbers]{natbib}
-
 \usepackage{setspace}
-
+\usepackage{hyperref}
 \usepackage{subcaption}
-
 \usepackage{varwidth}
 \usepackage{todonotes}
-
 % set the arrows as stealth fighters (personal preference)
 \tikzset{>=stealth}
 \captionsetup[figure]{labelfont={bf},name={Figure},labelsep=period}
@@ -101,7 +95,7 @@ bodyfont=\fontfamily{cmss}\selectfont,
   postheadspace=1em,
   qed=
 ]{mystyle5}
-\declaretheorem[style=mystyle5,numbered=yes]{strategy}
+\declaretheorem[style=mystyle5,numbered=no]{strategy}
 
 \declaretheoremstyle[
   spaceabove=6pt, spacebelow=6pt,
@@ -138,6 +132,7 @@ bodyfont=\fontfamily{cmss}\selectfont\itshape,
 
 \definecolor{fcolor}{RGB}{0,255,255}
 
+\usepackage[numbers]{natbib}
 
 \begin{document}
 \begin{spacing}{1}
@@ -154,20 +149,18 @@ bodyfont=\fontfamily{cmss}\selectfont\itshape,
 Let's begin by presenting a general overview, during which we'll go through the key-terms needed to understand this project.
 
 When faced with a given cryptocurrency, what we see on a price chart is the value of a single \textbf{token}.
-The value of a token is equal to the market cap (total value of the network) of a currency divided by the total circulating supply (number of tokens).
+The value of a token is equal to the market cap (total value of the network noted MC) of a currency divided by the total circulating supply (number of tokens noted CS).
 Bitcoin has a circulating supply of 19 million tokens but a total supply of 21 million tokens. The difference between the circulating supply and the total supply is the amount still available to be mined, and indicates future inflation. 
-\[
-Token_{BTC}=\frac{MC_{current}}{CS_{current}}
-\]
+$$\text{Token}_\text{BTC}=\frac{\text{MC}}{\text{CS}}$$
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale = 0.7]{TestPlots/BTC_overview.png}
-    \caption{}
+    \caption{The price chart of Bitcoin from 2017 to 2021}
     \label{}
 \end{figure}
-\\
-Just by looking at this chart, one can realise how volatile bitcoin has been and this particularity is shared by many other cryptocurrencies.\\
-Bitcoin went from $10K\$$ in September 2020 to over $60K\$$ in April 2021, but also lost half of it's value from April to July 2021.
+
+Just by looking at the chart in \figureautorefname{ 1.1}, one can realise how volatile bitcoin has been and this particularity is shared by many other cryptocurrencies.\\
+Bitcoin went from $10\text{K}\$$ in September 2020 to over $60\text{K}\$$ in April 2021, but also lost half of it's value from April to July 2021.
 One can say without doubt that the prices are on a roller coaster, everyone wants to experience the upward trends however the downfalls are extremely scary.\\
 
 Of course, not all cryptos follow the same trends some might be rising while others are crashing, and the goal of crypto-trading is to ride the right wave at the right time, and jump off the ship before it sinks. That is why we will be dealing with crypto pairs which are explained further.\\
@@ -180,46 +173,28 @@ The prices fluctuate according to many variables such as news, regulations, anno
 
 
 \section{Aim}
-\begin{itemize}
-    \item 
-The goal of this project is to proceed to the analysis of an optimal trading (buy-and-sell) strategy for the market of Cryptocurrencies. We expect such a strategy, if successful, also applicable to the case of traditional stock markets. (note: Cryptocurrencies data are usually more easily and freely available than stock markets data, which are often pricey)
-    \item
-The first part of the project will consist in showing you how to access the data of all historical data available on Binance. We choose Binance because it is one, if not the only exchange, with a properly working API which also have historical data up to 2017 and for the widest range of cryptocurrency pairs, and therefore the most diverse range of applicable trading strategy (arbitrage, sentiment-driven prices, trends, market making, etc).
-    \item{
-If you don't want to get your hands dirty (which is understandable) navigating through the code to download the data, simply download a set of the data at this link : \url{https://drive.switch.ch/index.php/s/URDxQbEv8LqSkB2}}
 
-\end{itemize}
+The goal of this project is to proceed to the analysis of an optimal trading (buy-and-sell) strategy for the market of Cryptocurrencies. In particular, we will investigate 4 range of strategies, namely, a first general Exploratory Data Analysis which shall lead us to discover some general historical trends over the days and months of trading (e.g. Thursday is generally a bad day to trade Bitcoin with a negative log-return overall). Secondly, we will investigate how social networks influences cryptocurrencies prices, we will propose buy-and-sell strategies accordingly, and shall backtest the latter. Later on in the project we shall proceed to analysis of cryptocurrencies interactions, cycles, and trends forecasting. We wish to pick the top trending cryptocurrencies right before they actually become top-trending cryptocurrencies. Eventually we shall conclude this project with the analysis of extremes. \\
+
+
+Before starting our analysis, the reader should know that, unlike stock markets, for which financial data are extremely onerous, cryptocurrencies data are far less expensive and far more accessible. In particular, we use Binance's (a major cryptocurrency exchange platform) API to extract the historical trading prices of every exchange pair on its platform. It's API allows us to obtain the historical prices over 1 day, 1 hour, and even 1 minute period. We shall obtain open, high, low, close (OHLC) prices for the according period. The trading volume is also provided. We provide further details regarding these data in the next section.\\
 
 
 
-\section{The data}
+If you do not want to get your hands dirty (which is understandable) navigating through the code to download the data, simply download a subset of the historical data we use at this link : \url{https://drive.switch.ch/index.php/s/URDxQbEv8LqSkB2}
+
+
+
+
+\section{Data}
 \subsection{Data extraction and processing}
-.
-
-\begin{itemize}
-\item{To extract the data, you can do so as per the call of \begin{center}\code{getuptodate\_binance\_data.update\_data\_for\_basepair(base\_pair=\'USDT\', nb\_symbols\_limit=5, bin\_size=\'1d\')}\end{center} in \code{get\_ohlc\_historical\_data.ipynb}}.
-
-\item{The data will be saved in a folder named \code{Binance\_OHLC} located within a 'Data' folder within your project folder. If you do not have such folders, create some. (If you are familiar with \code{chdir} python function to change and work with your choice directory you can ignore this remark).}
-
-\item{The code in \code{get\_uptodate\_binance\_data.py} contains a global variable \code{main\_directory} which has the name of my project folder I am working on. I recommend you call your project folders with the same name.}
-\end{itemize}
 
 
+Note that we have never encountered any NA values or other seemingly out-of-place values that would need to be rejected. Indeed, so called 'out-of-place values' or any other outliers kind of value are strong indicators which require further investigations and may be relevant to dedicated algorithmic trading strategies. We absolutely do not want to remove them as we may be tempted to do in some other contexts in data science.\\
+
+Discrepancies in the timestamp of our data : Missing time periods. Every once in a while there is a major crash in cryptocurrencies market (i.e. prices dropping significantly). This leads to a massive amount of people trying to connect to the cryptocurrencies exchange platforms to try to sell (or buy) some cryptocurrencies.This often results in the exchange becoming unavailable, their server not being able to handle so many connections attempts at once. This explains the missing data in historical cryptocurrencies prices data (It can be for a couple of minutes up to a couple of hours). We therefore compute 'time\_diff\_in\_days' and 'time\_diff\_in\_min' to spot any such discrepancies in the timestamp. For example, in a 1-hour dataset we expect that time difference between line i and line i-1 to be 60 min. If it appears to be 57 minutes, we know there was a crash that occured and therefore can decide our backtesting programme to not consider (i.e. to pause) this very particular time period. It is a useful method to rigoursly proceed to backtesting algorithm. \\
 
 
-\begin{itemize}
-    \item 
-We use the \code{clean\_csv} function to clean the newly downloaded data file. In particular, we setup timestamp in datetime format, to allow us to have an easier handling of the data later on.
-    \item
-We also select a subset of the columns of interest to us. In particular we keep keep the following columns: ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'time\_diff\_in\_days', 'time\_diff\_in\_min'].
-    \item
-Note that we have never encountered any NA values or other seemingly out-of-place values that would need to be rejected. Indeed, so called 'out-of-place values' or any other outliers kind of value are strong indicators which require further investigations and may be relevant to dedicated algorithmic trading strategies. We absolutely do not want to remove them as we may be tempted to do in some other contexts in data science.
-    \item
-Discrepancies in the timestamp of our data : Missing time periods. Every once in a while there is a major crash in cryptocurrencies market (i.e. prices dropping significantly). This leads to a massive amount of people trying to connect to the cryptocurrencies exchange platforms to try to sell (or buy) some cryptocurrencies.This often results in the exchange becoming unavailable, their server not being able to handle so many connections attempts at once. This explains the missing data in historical cryptocurrencies prices data (It can be for a couple of minutes up to a couple of hours). We therefore compute 'time\_diff\_in\_days' and 'time\_diff\_in\_min' to spot any such discrepancies in the timestamp.
-    \item
-You can find the code in the \code{get\_uptodate\_binance\_data.py} file
-
-\end{itemize}
 
 It is important to note that sometimes the dataset obtained via the extraction in Python can have missing rows of data, i.e. a time series with some missing dates/times depending on the resolution of the data set. As our analyses will be making decisions at every time step in the relevant dataset, this is inconvenient. One way to circumvent this is to \textbf{impute} the time series, and there are software packages available to do this. For example, in section \ref{reddit} on Reddit networks, an R package called \code{imputeTS} is used to do this, with the function \code{na\_kalman} which replaces \code{NA} values in the dataset using nearby values by Kalman Smoothing []. This method is one of the most recommended in the package [],
 
@@ -231,15 +206,7 @@ It is important to note that sometimes the dataset obtained via the extraction i
 \end{figure}
 
 
-Going further...
-
-\begin{itemize}
-    \item 
-Once an analysis is performed on a dedicated dataset (e.g. 1 hour BTC/USDT historical data), the same statistical analysis can be performed over any dataset (e.g. 1 minute ETH/CHF historical data), since the data structure (i.e. the columns, open, high, low, close) is the same. We will do so later on in the project.
-    \item
-We downloaded the data for hundreds of cryptocurrency pairs over various timeframe (1 day, 1 hour, 1 minute, etc) so that we can perform meta-analysis and/or repeat the small single-pair dataset analysis over all other sets
-
-\end{itemize}
+Going further, once an analysis is performed on a dedicated dataset (e.g. 1 hour BTC/USDT historical data), the same statistical analysis can be performed over any dataset (e.g. 1 minute ETH/CHF historical data), since the data structure (i.e. the columns, open, high, low, close) is the same. We shall do so later on in the project.
 
 
 
@@ -255,16 +222,31 @@ $$\log\left(\frac{p_i}{p_{i-t}}\right)$$\\
 
 Another important property is the additivity of the log-return. If our price at $t_1$ is $p_1$, it changes to $p_2$ at $t_2$ and move to $p_3$ at $t_3$. The log return from $t_1 $ to $t_2$ is $\log (p_2) - \log (p_1)$, the log return from $t_2 $ to $t_3$ is $\log (p_3) - \log (p_2)$. Therefore, it is clear that the log return from $t_1 $ to $t_3$ is $\log (p_3) - \log (p_1)$. This can be calculated easily. However, if we use simple return, the return should be $p_3/p_1$ instead of $p_3/p_2 + p_2/p_1$. Hence, log-return is easier to apply to real data.
 
- An interesting observation one can make when plotting the log-returns is that they are supposed to be normally distributed, however when looking at Figure 1.1 we can see that the mean is slightly tilted to the positive side which indicates that BTC has been a good investment overall.
+ An interesting observation one can make when plotting the log-returns is that they are supposed to be normally distributed.
  
  
  \section{Exploratory data analysis}
-Purpose of EDA:
+Exploratory data analysis (EDA) is used in data analysis to analyze and investigate data sets and summarize their main characteristics. It helps determine how best to manipulate data sources to get the answers you need, making it easier to discover patterns, spot anomalies, test a hypothesis, or check assumptions.
+
+EDA is primarily used to see what data can reveal beyond the formal modeling or hypothesis testing task and provides a provides a better understanding of data set variables and the relationships between them. It can also help determine if the statistical techniques you are considering for data analysis are appropriate. Originally developed by American mathematician John Tukey in the 1970s, EDA techniques continue to be a widely used method in the data discovery process today.
+
+The main purpose of EDA is to help look at data before making any assumptions. It can help identify obvious errors, as well as better understand patterns within the data, detect outliers or anomalous events, find interesting relations among the variables.
+
+
+
 \subsection{Distribution of prices and returns}
 
 
 
-\begin{figure}
+
+Figure (\ref{log return box}) shows the box plot of log-return of BTC. As can be seen from the graph, the mean value of log-return changing is around 0. with the first and third quantile around -0.02 and 0.02. It is worth mentioning that there are lots of outliers. This means the price change drastically for some certain days.
+
+
+
+Figure \ref{7day rolling volume} is about 7 days rolling average of the volume. As the average volume is different within a week (In the weekday, there are more trades than in the weekend), we calculate the average volume of 7days to smooth the plot. From this figure, we see that the volume oscillate during our examining period. The volume sometime change drastically for a certain day. However, with the existence of up and down signals, we see there is a trend of volume increasing from the beginning of 2017-07 to 2021-07.
+
+
+\begin{figure}[!htbp]
 \centering
 \begin{subfigure}{.5\textwidth}
     \centering
@@ -278,17 +260,9 @@ Purpose of EDA:
     \caption{7 day rolling average of the volume}
     \label{7day rolling volume}
 \end{subfigure}
-\caption{A figure with two subfigures}
+\caption{(a) The box plot of log-return of BTC in the given period. (b) The line plot of the rolling average of the volume}
 \label{fig:test}
 \end{figure}
-
-
-Figure \ref{log return box} shows the box plot of log-return of BTC. As can be seen from the graph, there are many outliers of the box plot. So it is reasonable to say that the distribution of log-return is not a normal distribution. More evidence will be given in the following sections.
-
-
-
-Figure \ref{7day rolling volume} is about 7 days rolling average of the volume. From this figure, we see that the volume oscillate during our examining period. The volume sometime change drastically for a certain day. However, with the existence of up and down signals, we see there is a trend of volume increasing from the beginning of 2017-07 to 2021-07.
-
 
 \subsection{Mean and Median hourly BTC/USDT log-return by day, by week, and by month}
 
@@ -346,7 +320,7 @@ We display the charts below.
 
 In finance, the question of extreme values is indubitably an important one. For example: stock market crashes, interest rates ad  insurance pricing based on life expectancy are all fields in which it would be necessary to consider rare events. The analysis of cryptocurrency trajectories is no different, indeed, sudden but large deviations in the trajectory of cryptocurrency prices would certainly be of interest to a trader. 
 
-In light of this, it is not unnatural to ask the corresponding statistical question in the context of extremes. In Figure \ref{fig:hist_logreturn_17_21}, we can see that the distribution of log returns for our data set admits very heavy tails. In this dataset there are many statistically anomalous results which skew the data, but even upon their removal, the data remain strongly skewed, see Figure \ref{fig:distplots_sans_outliers}, the data still exhibit this skewed behaviour. This sparks interest in using extreme value theory to aid our understanding of this behaviour.\\
+In light of this, it is not unnatural to ask the corresponding statistical question in the context of extremes. In Figure ..., we can see that the distribution of log returns for our data set admits very heavy tails. In this dataset there are many statistically anomalous results which skew the data, but even upon their removal, the data remain strongly skewed, see Figure \ref{fig:distplots_sans_outliers}, the data still exhibit this skewed behaviour. This sparks interest in using extreme value theory to aid our understanding of this behaviour.\\
 
 If we observe a trajectory of prices $p_t$, for $t$ an index of time (e.g. prices per minute or hour, etc.), by assuming they come from a random sample, we can aim to fit their scaled extreme, either maximum or minimum, to a distribution of the following type \[
 G(x; \eta, \tau, \xi) = \begin{cases}
@@ -357,109 +331,169 @@ G(x; \eta, \tau, \xi) = \begin{cases}
 where $\eta, \tau$ and $\xi$ are location, shape and scale parameters respectively. Studying maxima in this way is called the \textbf{block maxima approach}, since one groups data and considers fitting the distribution to the maxima across all groups, for example: maximum price over one day, where the prices are indexed by hours.
 
 The goal now, therefore, is to fit this model to our data, i.e. by finding the unknown parameters. To this end, we use the $\code{R}$ package $\code{evd}$ which gives useful functions for extremal modelling and makes plotting diagnostics straightforward. 
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth, height=3.5in]{TestPlots/Histogram log-returns2.png}
-    \caption{Distribution of log returns using data from August 2017 to August 2021. The distribution shows some quite heavy tails.}
-    \label{fig:hist_logreturn_17_21}
-\end{figure}
 
-\begin{figure}
+
+\begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\linewidth]{Extremal Modelling/distplots_sans_outliers.png}
+    \includegraphics[width=\linewidth, scale=0.8]{Extremal Modelling/distplots_sans_outliers.png}
     \caption{Distribution of log returns having eliminated outliers and a QQ plot of the data against a standard normal random variable. Clearly the data is still heavily tailed.}
     \label{fig:distplots_sans_outliers}
 \end{figure}
 
 
 
-.
-
 \chapter{Social media's influence on cryptocurrency prices}
-.
-\section{Price versus human behaviour}\label{sec:pricevshumanbehaviour}
-Some introduction, including some references...
-\begin{strategy}[Backtesting for profit and loss]\label{PnLgeneralstrat}
-If in a given time-frame, our entity-of-interest (e.g. person or news agency) outputs content on a media outlet, then the trader buys $1$ ETH at the current price and sells at the end of the time-frame. The time frame could be one second, for example. Thus, we suppose that our portfolio starts with a value $V_0$, and then we increment time. At each step, either we do nothing (no contribution was made by the entity) and so the value of the portfolio does not change, or it is scaled by the ratio of the sell price to the buy price, i.e. let $V_i$ be the value of the portfolio at time step $i$ and $c_i$ the close price at time step $i$, then \[
-V_{i+1} = \begin{cases}
-\dfrac{c_{i+1}}{c_i}V_i, & \text{entity outputs at time step}\, i,\\
-V_i, & \text{otherwise}.
-\end{cases}
-\] 
-The resulting sequence $(V_i)_i$ is called the profit and loss of the strategy and is often abbreviated to PnL. We will implement this strategy for each media outlet in order to assess the effectiveness, at least superficially, of our algorithm and in turn, the influence of media on cryptocurrency prices. 
-\end{strategy} 
+
+Unlike the traditional stock market, cryptocurrencies are traded without many regulations and are accessible to essentially anyone with an internet connection. Therefore it is not surprising that cryptocurrencies are perhaps more sensitive to human behaviour than traditional stocks; including a much more chaotic response to sudden trends and attitudes of these traders. This is indubitably heavily impacted by social media. We aim in this chapter to leverage this observation to generate winning strategies for trading on the market. 
+
+\section{Youtube trends}
+
+Youtube is the most dominant streaming platform worldwide. Many youtube channels are focused solely on cryptocurrencies and they do, sometimes, impact small market cap cryptocurrencies. In general, low market cap cryptocurrencies (below 10M USD) historical prices and data are hard to access and require APIs from numerous cryptocurrency exchanges each. Therefore, we will here confine ourselves to a general trend analysis of popular crypto Youtube channels.\\
+
+First we seek to figure out the search trends of Youtube, using Pytrends, an API for Google Trends, which allows us to retrieve the trending on Google search engines, including Youtube. We get the most trending queries on Youtube for the word 'Cryptocurrency'. From these we see four popular cryptocurrencies channel stand out, namely: Bitboy crypto, Banter crypto, Jrny crypto, and Crypto zombie.\\
+
+We then seek to observe the interest over time of each of these channels, as seen in Figure \ref{youtube_channel_crypto_trends}.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{Images/youtube_channel_crypto_trends.png}
+    \caption{Bitboy Crypto charges 60k USD to publish a video on upcoming cryptocurrencies, as per his notoriety.}
+    \label{youtube_channel_crypto_trends}
+\end{figure}
+
+
+Eventually we seek to observe the interest by region of one particular channel, Bitboy Crypto, a famous youtuber known to be influential in the sphere. We can see his viewership is mostly in the anglosphere, as we shall expect.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{Images/countries_rank_bitboy_crypto_youtube.png}
+    \caption{Bitboy Crypto is unsuprisingly most trending in anglophone countries.}
+    \label{countries_rank_bitboy_crypto_youtube}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{Images/youtube_countries_map_bitboy.png}
+    \caption{Map of the countries most trending for the Youtube channel Bitboy Crypto}
+    \label{youtube_countries_map_bitboy.png}
+\end{figure}
+
 
 \section{Twitter}
-Twitter is an American microblogging and social networking service on which users post and interact with messages known as "tweets". Users can post, like, and share (or retweet) tweets.
-From common people to highly influential billionaires, everyone has something to say and millions of people react and share their opinions on that platform. Donald Trump for instance has used it to communicate with the American citizens during his mandate. And we can say that the influence happening on twitter is unquestionable.\\
+Twitter is an American microblogging and social networking service on which users post and interact with messages known as "tweets". Users can post, like, and share (or retweet) tweets. Millions of people from a wide variety of positions and backgrounds react and share their opinions on the platform. This includes people of great significance  and influence within society, for example the former president of the US, Donald Trump, used Twitter extensively to communicate with the American citizens during his mandate.
 
-Users interact with Twitter through browser or mobile frontend software, however in order to collect data from that platform programmatically one has to do it via its APIs.
-We have used the python library snscrape.modules.twitter to collect the data we needed.\\
+One finds that some individuals are very aware of the impact they have on social media and often use their influence unreservedly. Elon Musk, a very well-known serial entrepreneur and founder of Tesla, who is also the richest man on the planet, has been heavily criticized for his influence on a few cryptocurrency stocks. He has embraced his role and was proclamed the Doge Father by the crypto community in reference to the cryptocurrency Dogecoin. He has been creating immense moves (both up and down) of price charts with his tweets.
+
+\subsection{Twitter strategy}
+Elon Musk's tweets unquestionably have great power. To create great profit inducing trading strategies it serves to try and quantify the power influencers like Elon Musk possess. In this section we will explore a simple trading strategy applied to BTCUSDT and DOGEUSDT currency pairs: \begin{strategy}[Elon Musk]
+Buy $1000\text{\$}$ whenever Elon musk tweets about a given cryptocurrency and hold this position for 24 hours. Once the 24 hour period has ended, sell the stock.
+\end{strategy}\label{strat:musk} 
+We will visualise the effectiveness of this strategy through the \textbf{profit and loss} (PnL) generated by this strategy. If our portfolio (number and type of quantities traded) has value $V_t$ for $t$ an index of time, then the sequence $(V_t)_{t=0}^T$ for some end-time $T$ is called the profit and loss of the portfolio through time.
+
+Users interact with Twitter through browser or mobile front-end software, however in order to collect their data from that platform computationally one has to do it via Twitter's APIs in a similar way to what we did to get the data from Binance.
+We have used the python library \code{snscrape.modules.twitter} to collect the data we needed. We then updated the buy signal accordingly. We have scraped Elon Musk's tweets in search of occurrences of the character strings 'BTC', 'bitcoin', 'dogecoin' or 'DOGE' to create the datasets dealing with bitcoin and dogecoin respectively. To do that we have used the function \code{sntwitter.TwitterSearchScraper}. Here are the results. \\
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{TestPlots/plot-BTC-pnl.png}
+    \caption{Although This strategy leads to a 20\% increase of the value of our portfolio for Bitcoin overall. We notice the presence of both a big up-trends and massive drops.}
+    \label{}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{TestPlots/plot-DOGE-pnl.png}
+    \caption{The strategy looks better for Doge and we can see a 100\% increase of the initial investment.}
+    \label{}
+\end{figure}
+
+ Tweets have a noticeable effect on the price of a currency, however, a tweet can negatively impact the price and suggests that one should pay attention to what is said in a tweet.\\
+For instance the huge up-trend after the $10^{th}$ entry point corresponds to a tweet in which he said "You can now buy a Tesla with Bitcoin" [24/03/2021]. We can infer that, this short sentence gave people a lot of hope and showed the interest of a massive company towards the cryptocurrency. The uptrend continued but then he talked about the risks and limitations of Bitcoin and said ``Bitcoin is actually highly centralized, with supermajority controlled by handful of big mining (aka hashing) companies. A single coal mine in Xinjiang flooded, almost killing miners, and Bitcoin hash rate dropped 35\%. Sound “decentralized” to you?" [16/05/2021]. From this we can infer that bitcoin traders lost confidence in the cryptocurrency, to use the crypto slang it spread FUD (fear uncertainty and doubt), and that caused a massive drop of the price.\\
+Knowing that a single person had so much power and could influence the prices easily in either way scared investors and Elon Musk received a lot of criticism and was accused of purposely affecting the markets to push his company's agenda. \\
+Following this logic, it seemed natural to try to get a sense of how optimistic a tweet was before deciding whether or not to buy.\\
+For that very reason we have chosen to use the python library \code{textblob} [REFERENCE] for processing textual data and proceed to the sentiment analysis of the tweets. The function \code{sentiment.polarity} gave a score in $ [-1,1]$ indicating how positive a text is using averaging methods. For instance : \[\code{sentiment.polarity}(``\text{good}")=0.7\;\;\;\:\:\code{sentiment.polarity}(``\text{bad}")=-0.7.\]
+\begin{strategy}[Adding Sentiment]
+We have added to the previous strategy the condition that the tweet had to have a sentiment score greater or equal to $0.2$ for us to buy.\end{strategy}\label{strat:sent} 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{TestPlots/plot_sentiment_btc.png}
+    \caption{The sentiment condition has missed on great upward motions as well as drops, the portfolio value still raised but only by 6\%. Which is not significant at all, especially for crypto stocks.}
+    \label{}
+\end{figure}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale = 0.5]{TestPlots/Doge_sentiment_plot.png}
+    \caption{The strategy is clearly not efficient for doge. We loose on our position most of the time. }
+    \label{}
+\end{figure}
+
+This  reduced the number of entry points by more than a half but missed out on great opportunities while doing so. That is probably because neutral sentences containing crucial information can be misinterpreted by the sentiment function. Indeed the sentence "you can buy tesla with bitcoin" has a score of $0$, While the sentence "bitcoin consumes too much energy" has a score of $0.2$.\\
+Of course this is also because our person of interest, Elon Musk, is not trying to energize the public but just making an announcement.\\
+In conclusion trying to gauge the sentiment of his tweets wasn't the best approach, and resulted in a loss of capital.\\
+Sentiment analysis is an efficient technique and should be used at a bigger scale when analyzing an important amount of tweets coming from different people, using it on a single person could lead to errors due to the personality of the source.
 
 
-\section{Medium}
-Medium is an American online publishing platform developed by Evan Williams and launched in August 2012. It is owned by A Medium Corporation. The platform is an example of social journalism, having a hybrid collection of amateur and professional people and publications, or exclusive blogs or publishers on Medium, and is regularly regarded as a blog host.
 
-Many cryptocurrencies are run by companies. These companies keep and mantain the currency they create, and they use social media to promote their products. Medium, as a famous and influential social media platform, is often used to publish announcement and news of the company. One of the articles says that there is a correlation between the time they publish article and the price of their cryptocurrencies. The currency they analyze is called Kyber (KNC). In this section, we are going to investigate the correlation between them in Kyber, by...
+
+
+\section{Medium}\label{sec:medium}
+Medium is an American online publishing platform developed by Evan Williams and launched in August 2012. The platform gives its members the ability to read and participate in social journalism, having a hybrid collection of amateur and professional people and publications. The site is regularly regarded as a blog host \cite{streitfeld2017internet}.
+
+
+
+
+As we know, many cryptocurrencies are run by companies or individuals. They maintain the currency they create, and they use social media to promote their cryptocurrency. Medium, as a famous and influential social media platform, is often used to promote the cryptocurrency they create. One idea we came about is that there may have some relationships between the medium and price changing of their cryptocurrency. In this section, we aim to develop strategies using the information from their medium blog. As an example, we focus on a certain cryptocurrency called Kyber (KNC). Though there are differences between each cryptocurrency, the analysis and the strategies can be applied to other cryptocurrencies as well. 
 
 
 
 \subsection{Data Preprocessing}
-In this part, we present the methods to extract data of price change and the medium publication. 
+In this section, we explain how we access the data from the medium and the changes of cryptocurrency price. For the medium publications, we use webscraping techniques via some python libraries (\code{BeautifulSoup4 , request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. This allows us to access the information via the python.  With the help of library \code{selenium}, we are able to acquire the full information of the source code. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code. By doing so, we can deal with this HTML information much easier with Python. With the \code{find\_all} function, we can find all information that interests us in each article. In our case, we think the update time of the article and the title of the article might be helpful for developing strategies. Therefore, using techniques we just introduced, we have a dataframe that contains the update time (Denoted as \code{date}) and title for all of the medium articles (Denoted as \code{title}) from Kyber.
 
-For the medium publication, we use Webscrapping techniques via python libraries (\code{BeautifulSoup4, request} and \code{selenium}). At first, we use \code{request} to acquire the source code of the website from \url{https://medium.com/@kyberteam}. Using \code{selenium}, we scroll the page to the very bottom to reach the full context of the website. After that, we use functions in the library \code{BeautifulSoup4} to parse the whole source code. With the \code{find\_all} function, we find all content that interests us. In this project, we choose \code{title} and \code{date} as our features.
+When looking into details, we found that they do not update their medium everyday. We guess updating an article or not is a good signal in developing strategies. So we make a new feature called \code{signal}. It is a binary variable, and the entry is given value 1 if Kyber posted on that day at medium and 0 otherwise.  For the \code{title}, we want to apply sentiment analysis used in Twitter and keyword checking (To see if it contain certain keyword like 'announcement') at first. However, as a big company based in Asia, Kyber published a large amount of articles that not in English. As a result, it is not easy to do the analysis based on these different languages.  
 
-Another part is the access to the price. Binance gives us an API to access to the cryptocurrency price easily. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of a certain cryptocurrency.
 
-After that, we merge two dataframes together. Finally, we get our dataframe that contains feature \code{date},\code{high}(the highest price of the day),\code{low}(the lowest price of the day), \code{open}(the open price of a day), \code{close}(The close price of a day), \code{signal}(It is an indicator of whether Kyber has post an article at that day,\code{volumn}(The money traded at that day). 1 means Kyber post an article on article at that day while 0 means no articles were posted). 
+
+
+Another work is about the preprocessing of the price changing data. To achieve this goal, we us an API from Binance to access to the cryptocurrency price. Binance is a cryptocurrency exchange which is currently the largest exchange in the world in terms of daily trading volume of cryptocurrencies. With the help of Binance API, we are able to extract the details for price changing of Kyber and analysize it with Python. We put these details into another dataframe, and merge it with the dataframe with medium information. After choosing relevant information, we have some features that are listed in the table (\ref{tab:feature}). 
 
 As the Kyber begun to trade on Binance since 2020-06-12, the data we select are between 2020-06-12 to 2021-11-16.
 
 
-
-
-\subsection{Strategy and Analysis}
-To begin, we will investigate the strength of correlation between these variables. If we find some strong correlation between the change of price and some feature, we can use that to build a great strategy. As discussed above, we consider the difference of the log price within a day (\code{$\log$(close)-$\log$(open)}, we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the  Below is the correlation matrix between \code{signal} and \code{opcl}. Unfortunately, there is no strong correlation between them. Table  \ref{tab:corrMatrixOpclSignal} presents the correlation matrix between opcl and signal. 
-
-\begin{table}[]
+\begin{table}[!htp]
     \centering
-    \begin{tabular}{|c|c|c|}
-    \hline
-         & opcl &  signal \\ \hline
-        opcl & 1.00 & 0.05\\ \hline
-        signal & 0.05& 1.00\\ \hline
-    \end{tabular}
-    \caption{Correlation matrix}
-    \label{tab:corrMatrixOpclSignal}
+    \begin{tabular}{|l|p{0.8\linewidth}|}
+        \hline
+        \code{date}  & Date of trading \\
+        \code{high} & The highest price of the day\\
+       \code{low}& The lowest price of the day\\
+         \code{open} & Binary indicator vector of Kyber article posts indexed by day. An entry is given the value $1$ if Kyber posted on that day and $0$ otherwise. \\
+        \code{volume} & The amount of money traded at that day.\\ \hline
+    \end{tabular}\vspace{2mm}
+    \caption{Summary of the notation [WHAT NOTATION? The first column is...]. ADD AN INTERESTING COMMENT PLEASE.}
+    \label{tab:feature}
 \end{table}
 
 
-In this section, we try some strategies and do backtesting to asses their performance. 
-
-\begin{strategy}[Kyber Same Day]
+\subsection{Medium strategy}
+We will investigate the strength of correlation between these variables. If we find some strong correlation between the change of price and some feature, we can use that fact to inform a great trading strategy. As discussed above, we consider the difference of the log price within a day (\code{$\log$(close)-$\log$(open)}, we call this feature \code{opcl}). Unfortunately, we can't find any features that strong correlate with the [WHAT]. [HOW DID YOU ASSESS THE CORRELATION?] We found the correlation between \code{signal} and \code{opcl} to be $0.05$ (any statistical tests available?). Unfortunately, there is no strong correlation between them [HOW HAVE YOU CONCLUDED THIS?]. [WITH THIS INFORMATION IN MIND... WE NOW]
+\begin{strategy}[Kyber Next Day]
 If Kyber updates an article on date $t$, we spend all the money to buy the cryptocurrency on date $t$ with the open price and sell them all at the open price on date $t+1$.
 \end{strategy}\label{strat:Kyber1}
 
-\begin{strategy}[Kyber Next Day]
+\begin{strategy}[Kyber Same Day]
 If Kyber updates an article at some time $t$, we spend all the money to buy the cryptocurrency at the open price on date $t$ and sell at the close price on date $t$.
 \end{strategy}\label{strat:Kyber2} 
 
-We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. For visualization, we assume we have 1000 dollars at the beginning of the trade. The figure (\ref{backtest medium}) below is the figure of price change of two stategies and the baseline.
+We compare the two strategies with a baseline, which is the simplest strategy: buy the cryptocurrency and do nothing. The value of our portfolio created this way is simply the price of the cryptocurrency over time. To perform the analysis, we assume that we have $1000$ dollars at the start of the strategy's implementation. Figure \ref{backtest medium} is the figure of price change of the two strategies and the baseline.
 
-
-\begin{figure}[!htbp]
+\begin{figure}[!h]
     \centering
-    \includegraphics[scale =  0.8]{Images/medium backtesting.png}
-    \caption{Back testing of two strategies mentioned above }
+    \includegraphics[scale =  0.65]{Images/medium backtesting.png}
+    \caption{Back testing of two strategies mentioned above. All the money are in USD. It can be seen clearly that the two strategy outperform the baseline the majority of the time.}
     \label{backtest medium}
 \end{figure}
 
-From the figure (\ref{backtest medium}), we see that our two strategies perform better than the baseline in majority of time. We see that this strategy perform very nice between day 80 to day 200, where the price of Kyber drop drastically. However, they didn't run away from the big crash in the day 475, and the two strategies suffer a great loss at that time. In conclusion, these two simple strategies outperform the baseline, while the second strategy performs the best.
-
-
-
-
-
+Clearly, the naïve do nothing strategy is sub-optimal. We see that this strategies perform very well between day 80 to day 200, where the price of Kyber drops drastically. However, they couldn't escape the big crash on day 475, and the two strategies suffer a great loss during this time. In conclusion, these two simple strategies outperform the baseline, while the second strategy performs the best.
 
 \section{Reddit}\label{reddit}
 Reddit is the Internet's forum. It serves as a hub for discussion on just about anything you can think of. Naturally, therefore, cryptocurrency enthusiasts will discuss trends, advice and more in the many dedicated fora such as 'r/Cryptocurrecy' or 'r/Bitcoin'. For this reason, it is not hard to imagine that there are more prominent members of the community who feature across several fora and make frequent contributions to the community. Over time, these people may gain a reputation for some type of expertise. Such people, like in the Twitter section, we will call  \textbf{influencers}. 
@@ -538,7 +572,7 @@ What can we learn from the projections? Later in this section, our goal will be 
 
 
 
-\subsection{Assessment of profit and loss influenced by redditors authors}\label{sec:redditPNL}
+\subsection{Reddit strategy}\label{sec:redditPNL}
 \begin{figure}[h]
 \begin{minipage}{.5\linewidth}
 \centering
@@ -561,7 +595,11 @@ To study and visualise the graph, we explored the R packages \code{igraph}, \cod
 
 
 
-As you see from the RShiny application, the author with the highest IVI centrality is \code{naji\_102} and a further application of \code{praw} functionality shows that the majority of their posts occur in ethereum related subreddits, so we focus on the pairing ETHUSDT for this redditor. The analysis thence effectuated consisted of applying the strategy outlined in section \ref{sec:pricevshumanbehaviour} to the posts of this redditor between Aug 8 and Nov 11 of 2021\footnote{The reason for this choice is computational; we extracted as many popular posts as the webscraper \code{praw} would permit --- it limits use so that their servers are not overrun.}, in Python. We do this twice: once by measuring posts by hour, and again but by measuring posts by minute, then we compare the results. The nature of the strategy produces a step-like trajectory in each case, as observed in Figure \ref{fig:pnl_naji102}. We can see that the two strategies exhibit quite different behaviours over the identical time period.
+As you see from the RShiny application, the author with the highest IVI centrality is \code{naji\_102} and a further application of \code{praw} functionality shows that the majority of their posts occur in ethereum related subreddits, so we focus on the pairing ETHUSDT for this redditor. The analysis thence effectuated consisted of applying the following strategy (in Python) to the posts of this redditor between Aug 8 and Nov 11 of 2021\footnote{The reason for this choice is computational; we extracted as many popular posts as the webscraper \code{praw} would permit --- it limits use so that their servers are not overrun.}: \begin{strategy}[Reddit influencer]
+\label{PnLgeneralstrat}
+If in a given time-frame, our entity-of-interest (e.g. person or news agency) outputs content on a media outlet, then the trader buys $1$ ETH at the current price and sells at the end of the time-frame. The time frame could be one second, for example. 
+\end{strategy}
+We do this twice: once by measuring posts by hour, and again but by measuring posts by minute, then we compare the results. The nature of the strategy produces a step-like trajectory in each case, as observed in Figure \ref{fig:pnl_naji102}. We can see that the two strategies exhibit quite different behaviours over the identical time period.
 
 
 
@@ -685,17 +723,20 @@ This analysis is of course limited. For example, we didn't consider the content 
 
 
 
+%\begin{thebibliography}{}
+%\bibitem{medium}
+ %Streitfeld, David (May 20, 2017). "'The Internet Is Broken': @ev Is Trying to Salvage It". The New York Times. ISSN 0362-4331. Archived from the original on May 21, 2017. Retrieved 2017-05-22.
+%\bibitem{}
+
+
+
+%\end{thebibliography}
 
 
 
 
 
-
-
+\bibliography{references}
 \end{spacing}
-\nocite{*}
-{\small
-\bibliography{refs}
-\bibliographystyle{abbrvnat}
-}
+
 \end{document}

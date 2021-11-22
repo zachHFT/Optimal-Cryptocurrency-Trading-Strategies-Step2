@@ -30,7 +30,7 @@ ETH_1m$signal <- signal
 close_with_na <- with(ETH_1m, close)
 ETH_1m$close <- na_kalman(close_with_na)
 
-ggplot_na_imputations(close_with_na, ETH_1m$close)
+ggplot_na_imputations(close_with_na, ETH_1m$close, size_points=0.5)
 
 
 write.csv(ETH_1m, file="ETHUSDT-1m-binance-imputed.csv")

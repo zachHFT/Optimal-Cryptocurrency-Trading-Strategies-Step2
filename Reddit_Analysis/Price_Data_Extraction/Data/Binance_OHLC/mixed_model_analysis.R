@@ -3,19 +3,17 @@ library(ggpubr)
 library(mixtools)
 library(rsample)
 library(bootstrap)
+library(nlme)
+library(stargazer)
+library(ltm)
 pnl_m <- read.csv('pnl_naji102_min.csv')
 pnl_hr <- read.csv('pnl_naji102_hr.csv')
 eth1m <- read.csv("ETHUSDT-1m-binance-imputed.csv")
 eth1hr <- read.csv("ETHUSDT-1h-binance-imputed.csv")
 
-cor.test(c(pnl_m$X0[1], diff(pnl_m$X0)), eth1m$close)
-cor.test(c(pnl_hr$X0[1], diff(pnl_hr$X0)), eth1hr$close)
+cor.test(eth1m$close, eth1m$signal)
 
-ggscatter(data=data.frame(y = c(pnl_hr$X0[1], diff(pnl_hr$X0)), x = eth1hr$close), x = "y", y = "x",
-          add = "reg.line", conf.int = TRUE, 
-          cor.coef = TRUE, cor.method = "pearson",
-          xlab = "PnL", ylab = "Close price") + ggtitle("Hourly close price against proft 'n' loss trajectory")
-hist(pnl_hr)
+
 
 set.seed(101)
 normal_mix_hr <- normalmixEM(pnl_hr$X0, k=2)
